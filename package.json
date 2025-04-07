@@ -9,7 +9,7 @@
         "main"
     ],
     "types": [
-        "./src/faz-bs-elements.d.ts",
+        "./types/faz-bs-elements.d.ts",
         "./types/index.d.ts"
     ],
     "files": [
@@ -39,7 +39,7 @@
         "bootstrap": "5.3.5",
         "bootstrap-icons": "1.11.3",
         "bootswatch": "5.3.5",
-        "faz": "0.2.1",
+        "faz": "0.2.3",
         "less": "4.2.0",
         "lodash": "4.17.21",
         "solid-js": "1.9.3"
