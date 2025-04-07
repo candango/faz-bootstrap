@@ -55,7 +55,7 @@
         "esbuild-plugin-copy": "2.1.1",
         "esbuild-plugin-solid": "0.6.0",
         "nise": "6.1.1",
-        "prettier": "3.4.2",
+        "prettier": "3.5.3",
         "typescript": "5.7.2"
     },
     "scripts": {
