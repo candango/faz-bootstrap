@@ -1,6 +1,6 @@
 {
     "name": "faz-bootstrap",
-    "version": "0.0.4",
+    "version": "0.0.5",
     "description": "HTML Web Components based on Faz and Bootstrap.",
     "main": "src/index.ts",
     "module": "./dist/js/index.js",
