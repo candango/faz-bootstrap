@@ -1,7 +1,6 @@
 import { FazBsAlert, FazBsBadge } from ".";
 import { InitCallback, FilterCallback, FazBsInputFilterbox } from "./input/filterbox";
 import { FazElementAttributes  } from "faz/types/faz-elements";
-import { JSX } from "solid-js/types/jsx";
 
 interface FazBsElementAttributes<T> extends FazElementAttributes<T> {
     kind?: string;

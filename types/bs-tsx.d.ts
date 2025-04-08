@@ -1,14 +1,11 @@
 import { FazBsAlert, FazBsBadge } from ".";
 import { InitCallback, FilterCallback, FazBsInputFilterbox } from "./input/filterbox";
-import { FazElementAttributes  } from "faz/types/faz-elements";
-import { JSX } from "solid-js/types/jsx";
-
+import { FazElementAttributes } from "faz/types/faz-elements";
 interface FazBsElementAttributes<T> extends FazElementAttributes<T> {
     kind?: string;
     target?: string;
     theme?: string;
 }
-
 interface FazBsInputFilterboxAttributes<T> extends FazBsElementAttributes<T> {
     autocomplete?: string;
     filtercallback?: FilterCallback | string;
@@ -16,7 +13,6 @@ interface FazBsInputFilterboxAttributes<T> extends FazBsElementAttributes<T> {
     value?: string;
     label?: string;
 }
-
 declare module "solid-js" {
     namespace JSX {
         interface IntrinsicElements {
@@ -26,3 +22,5 @@ declare module "solid-js" {
         }
     }
 }
+export {};
+//# sourceMappingURL=bs-tsx.d.ts.map
