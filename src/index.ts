@@ -24,6 +24,8 @@ export { FazBsBreadcrumb, FazBsBreadcrumbItem } from "./breadcrumb/breadcrumb";
 
 export { FazBsInputFilterbox } from "./input/filterbox";
 
+export type {InitCallback, FilterCallback } from "./input/filterbox";
+
 export {
     FazBsNav, FazBsNavItem, FazBsNavItemContent, FazBsNavTab
 } from "./nav/nav";
@@ -31,3 +33,18 @@ export {
 export {
     FazBsNavbar, FazBsNavbarBrand, FazBsNavbarToggler, FazBsNavbarCollapse
 } from "./navbar/navbar";
+
+export type { FazBsElementAttributes, FazBsInputFilterboxAttributes } from "./bs-tsx";
+
+import { FazBsAlert, FazBsBadge, FazBsInputFilterbox } from ".";
+import { FazBsElementAttributes, FazBsInputFilterboxAttributes } from ".";
+
+declare module "solid-js" {
+    namespace JSX {
+        interface IntrinsicElements {
+            'faz-bs-alert': FazBsElementAttributes<FazBsAlert>;
+            'faz-bs-badge': FazBsElementAttributes<FazBsBadge>;
+            'faz-bs-input-filterbox': FazBsInputFilterboxAttributes<FazBsInputFilterbox>;
+        }
+    }
+}
