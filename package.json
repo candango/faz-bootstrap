@@ -32,14 +32,14 @@
     ],
     "dependencies": {
         "@popperjs/core": "2.11.8",
-        "axios": "1.7.9",
+        "axios": "1.10.0",
         "bootstrap": "5.3.5",
         "bootstrap-icons": "1.11.3",
         "bootswatch": "5.3.5",
-        "faz": "0.2.4",
+        "faz": "0.2.5",
         "less": "4.3.0",
         "lodash": "4.17.21",
-        "solid-js": "1.9.5"
+        "solid-js": "1.9.7"
     },
     "devDependencies": {
         "@codemirror/lang-html": "6.4.9",
@@ -47,8 +47,8 @@
         "@codemirror/view": "6.36.5",
         "@types/lodash": "4.17.16",
         "@types/nise": "1.4.5",
-        "@types/node": "22.14.0",
-        "esbuild": "0.25.2",
+        "@types/node": "24.0.3",
+        "esbuild": "0.25.5",
         "esbuild-plugin-copy": "2.1.1",
         "esbuild-plugin-solid": "0.6.0",
         "nise": "6.1.1",
@@ -57,7 +57,7 @@
     },
     "scripts": {
         "watch": "npm run watch:clean && node watch.mjs",
-        "watch:clean": "rm -rf watch/dist",
+        "watch:clean": "rm -rf showcase/dist",
         "esbuild": "node build.mjs",
         "ts:build": "npm run ts:clean && npm run ts:declaration",
         "ts:declaration": "tsc -p tsconfig.types.json -d --declarationDir types --emitDeclarationOnly && rm -rf tsconfig.types.tsbuildinfo",
