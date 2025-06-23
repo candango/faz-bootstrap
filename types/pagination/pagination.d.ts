@@ -14,16 +14,9 @@
  * limitations under the License.
  */
 import { FazBsElement } from "../bs-element";
-import { Accessor, JSX, Setter } from "solid-js";
+import { JSX } from "solid-js";
 export declare class FazBsPagination extends FazBsElement {
-    count: Accessor<number>;
-    setCount: Setter<number>;
-    page: Accessor<number>;
-    setPage: Setter<number>;
-    perBlock: Accessor<number>;
-    setPerBlock: Setter<number>;
-    perPage: Accessor<number>;
-    setPerPage: Setter<number>;
+    private paginator;
     private labels;
     constructor();
     get classNames(): string;
@@ -32,24 +25,6 @@ export declare class FazBsPagination extends FazBsElement {
     get previousBlockButtonClass(): string;
     get lastNextButtonClass(): string;
     get nextBlockButtonClass(): string;
-    get blocks(): number;
-    get pages(): number;
-    get protectedPage(): number;
-    get currentBlock(): number;
-    get currentFirstPage(): number;
-    get currentLastPage(): number;
-    get pagesInLastBlock(): number;
-    get currentBlockPages(): number[];
-    isCurrentPage(page: number): boolean;
-    get isFirstPage(): boolean;
-    get isFirstBlock(): boolean;
-    get isLastPage(): boolean;
-    get isLastBlock(): boolean;
-    get hasMultiplePages(): boolean;
-    get hasMultipleBlocks(): boolean;
-    get recordsInLastPage(): number;
-    get currentFirstRecord(): number;
-    get currentLastRecord(): number;
     goToPage(data: [FazBsPagination, number], _: Event): void;
     goToFirstPage(pagination: FazBsPagination, event: Event): void;
     goToLastPage(pagination: FazBsPagination, event: Event): void;
