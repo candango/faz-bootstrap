@@ -1,5 +1,5 @@
 /**
- * Copyright 2018-2024 Flavio Garcia
+ * Copyright 2018-2025 Flavio Garcia
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,6 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-import "../../src/breadcrumb/breadcrumb";
-import "../../src/list-group/list-group";
+import { FazBsElement } from "../bs-element";
+export declare class FazBsListGroup extends FazBsElement {
+    private listGroup;
+    constructor();
+    get classNames(): string;
+    show(): void;
+}
+//# sourceMappingURL=list-group.d.ts.map

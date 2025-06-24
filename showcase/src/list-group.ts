@@ -14,5 +14,5 @@
  * limitations under the License.
  */
 
-import "../../src/breadcrumb/breadcrumb";
 import "../../src/list-group/list-group";
+import "../../src/breadcrumb/breadcrumb";

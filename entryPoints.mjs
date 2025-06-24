@@ -20,6 +20,7 @@ export const entryPoints =  [
     { out: "js/badge", in: "src/badge/badge.tsx" },
     { out: "js/input-filterbox", in: "src/input/filterbox.tsx" },
     { out: "js/breadcrumb", in: "src/breadcrumb/breadcrumb.tsx" },
+    { out: "js/list-group", in: "src/list-group/list-group.tsx" },
     { out: "js/nav", in: "src/nav/nav.tsx" },
     { out: "js/navbar", in: "src/navbar/navbar.tsx" },
     { out: "js/pagination", in: "src/pagination/pagination.tsx" },
