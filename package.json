@@ -3,12 +3,12 @@
     "version": "0.1.0",
     "description": "HTML Web Components based on Faz and Bootstrap.",
     "main": "src/index.ts",
-    "module": "./dist/js/index.js",
+    "module": "dist/js/index.js",
     "mainFields": [
         "module",
         "main"
     ],
-    "types": "./types/index.d.ts",
+    "types": "dist/types/index.d.ts",
     "files": [
         "dist",
         "src",
@@ -62,7 +62,7 @@
         "ts:build": "npm run ts:clean && npm run ts:declaration",
         "ts:declaration": "tsc -p tsconfig.types.json -d --declarationDir types --emitDeclarationOnly && rm -rf tsconfig.types.tsbuildinfo",
         "ts:clean": "rm -rf tsconfig.tsbuildinfo types/*",
-        "build": "npm run build:clean && npm run lessc && npm run esbuild && npm run ts:build",
+        "build": "npm run build:clean && npm run lessc && npm run esbuild && npm run ts:build && cp -r types dist",
         "build:prod": "npm run build:clean && webpack --config webpack.config.prod.js && npm run lessc",
         "build:clean": "rm -rf dist",
         "build:vendors": "rm -rf dist",
