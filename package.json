@@ -44,7 +44,7 @@
     "devDependencies": {
         "@codemirror/lang-html": "6.4.9",
         "@codemirror/language": "6.11.0",
-        "@codemirror/view": "6.36.5",
+        "@codemirror/view": "6.37.2",
         "@types/lodash": "4.17.16",
         "@types/nise": "1.4.5",
         "@types/node": "24.0.3",
