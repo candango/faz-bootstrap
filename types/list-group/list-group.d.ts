@@ -20,4 +20,5 @@ export declare class FazBsListGroup extends FazBsElement {
     get classNames(): string;
     show(): void;
 }
+export { FazBsListGroupItem } from "./list-group-item";
 //# sourceMappingURL=list-group.d.ts.map

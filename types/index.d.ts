@@ -19,6 +19,7 @@ export { FazBsBadge } from "./badge/badge";
 export { FazBsBreadcrumb, FazBsBreadcrumbItem } from "./breadcrumb/breadcrumb";
 export { FazBsInputFilterbox } from "./input/filterbox";
 export type { InitCallback, FilterCallback } from "./input/filterbox";
+export { FazBsListGroup, FazBsListGroupItem } from "./list-group/list-group";
 export { FazBsNav, FazBsNavItem, FazBsNavItemContent, FazBsNavTab } from "./nav/nav";
 export { FazBsNavbar, FazBsNavbarBrand, FazBsNavbarToggler, FazBsNavbarCollapse } from "./navbar/navbar";
 export type { FazBsElementAttributes, FazBsInputFilterboxAttributes } from "./bs-tsx";

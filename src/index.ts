@@ -26,6 +26,8 @@ export { FazBsInputFilterbox } from "./input/filterbox";
 
 export type {InitCallback, FilterCallback } from "./input/filterbox";
 
+export { FazBsListGroup, FazBsListGroupItem } from "./list-group/list-group";
+
 export {
     FazBsNav, FazBsNavItem, FazBsNavItemContent, FazBsNavTab
 } from "./nav/nav";
@@ -36,7 +38,11 @@ export {
 
 export type { FazBsElementAttributes, FazBsInputFilterboxAttributes } from "./bs-tsx";
 
-import { FazBsAlert, FazBsBadge, FazBsInputFilterbox } from ".";
+import {
+    FazBsAlert, FazBsBadge, FazBsInputFilterbox, FazBsListGroup,
+    FazBsListGroupItem
+} from ".";
+
 import { FazBsElementAttributes, FazBsInputFilterboxAttributes } from ".";
 
 declare module "solid-js" {
@@ -45,6 +51,8 @@ declare module "solid-js" {
             'faz-bs-alert': FazBsElementAttributes<FazBsAlert>;
             'faz-bs-badge': FazBsElementAttributes<FazBsBadge>;
             'faz-bs-input-filterbox': FazBsInputFilterboxAttributes<FazBsInputFilterbox>;
+            'faz-bs-list-group': FazBsInputFilterboxAttributes<FazBsListGroup>;
+            'faz-bs-list-group-item': FazBsInputFilterboxAttributes<FazBsListGroupItem>;
         }
     }
 }

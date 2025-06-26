@@ -42,5 +42,7 @@ export class FazBsListGroup extends FazBsElement {
     }
 }
 
+export { FazBsListGroupItem } from "./list-group-item";
+
 customElements.define("faz-bs-list-group", FazBsListGroup);
 customElements.define("faz-bs-list-group-item", FazBsListGroupItem);

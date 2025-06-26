@@ -13,6 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-import "../../src/list-group/list-group";
-import "../../src/breadcrumb/breadcrumb";
+import { FazBsElement } from "../bs-element";
+export declare class FazBsLink extends FazBsElement {
+    private linkElement;
+    constructor();
+    get classNames(): string;
+    get controlledLink(): string | undefined;
+    show(): void;
+}
+//# sourceMappingURL=link.d.ts.map
