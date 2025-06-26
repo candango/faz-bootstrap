@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 import { EditorView } from "@codemirror/view";
+import { EditorState } from "@codemirror/state";
 import { syntaxHighlighting, defaultHighlightStyle } from "@codemirror/language";
 import { html } from "@codemirror/lang-html";
 
@@ -53,13 +54,17 @@ window.codemirrorit = function (id: string) {
     }, { dark: true });
 
     window.addEventListener("load", () => {
-
-    new EditorView({
-        doc: originalHtml,
-        extensions: [
-             html(),theme, syntaxHighlighting(defaultHighlightStyle)
-        ],
-        parent: codemirrorDiv,
-    });
+        let state = EditorState.create({
+            doc: originalHtml, 
+            extensions: [
+                html(),
+                theme,
+                syntaxHighlighting(defaultHighlightStyle)
+            ],
+        });
+        new EditorView({
+            state: state,
+            parent: codemirrorDiv
+        });
     });
 }
