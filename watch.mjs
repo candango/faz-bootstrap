@@ -28,6 +28,8 @@ entryPoints.push({ out: "index.bundle", in: "showcase/src/index.ts" });
 entryPoints.push({ out: "input.bundle", in: "showcase/src/input.ts" });
 entryPoints.push({ out: "input-filterbox-solid.bundle", in: "showcase/src/input-filterbox.ts" });
 entryPoints.push({ out: "grid-solid.bundle", in: "showcase/src/grid.ts" });
+entryPoints.push({ out: "link-solid.bundle", in: "showcase/src/link.ts" });
+
 entryPoints.push({ out: "list-group-solid.bundle", in: "showcase/src/list-group.ts" });
 entryPoints.push({ out: "nav-solid.bundle", in: "showcase/src/nav.ts" });
 entryPoints.push({ out: "navbar-solid.bundle", in: "showcase/src/navbar.tsx" });
