@@ -68,4 +68,3 @@ export class FazBsListGroupItem extends FazBsElement {
         render(() => this.item, this);
     }
 }
-
