@@ -14,6 +14,10 @@
  * limitations under the License.
  */
 
+export type {
+    FazBsAttrKind, FazBsAttrPosition
+} from "./bs-attributes";
+
 export { FazBsElement } from "./bs-element";
 
 export { FazBsAlert } from "./alert/alert";
@@ -25,6 +29,8 @@ export { FazBsBreadcrumb, FazBsBreadcrumbItem } from "./breadcrumb/breadcrumb";
 export { FazBsInputFilterbox } from "./input/filterbox";
 
 export type {InitCallback, FilterCallback } from "./input/filterbox";
+
+export { FazBsLink } from "./link/link";
 
 export { FazBsListGroup, FazBsListGroupItem } from "./list-group/list-group";
 
@@ -39,7 +45,7 @@ export {
 export type { FazBsElementAttributes, FazBsInputFilterboxAttributes } from "./bs-tsx";
 
 import {
-    FazBsAlert, FazBsBadge, FazBsInputFilterbox, FazBsListGroup,
+    FazBsAlert, FazBsBadge, FazBsInputFilterbox, FazBsLink, FazBsListGroup,
     FazBsListGroupItem
 } from ".";
 
@@ -52,6 +58,7 @@ declare module "solid-js" {
             'faz-bs-badge': FazBsElementAttributes<FazBsBadge>;
             'faz-bs-input-filterbox': FazBsInputFilterboxAttributes<FazBsInputFilterbox>;
             'faz-bs-list-group': FazBsInputFilterboxAttributes<FazBsListGroup>;
+            'faz-bs-link': FazBsInputFilterboxAttributes<FazBsLink>;
             'faz-bs-list-group-item': FazBsInputFilterboxAttributes<FazBsListGroupItem>;
         }
     }
