@@ -24,9 +24,8 @@ export class FazBsBreadcrumb extends FazBsElement {
 
     private itemOl: JSX.Element;
 
-    get classNames() {
-        let classes = ["breadcrumb"];
-        return classes.join(" ");
+    get baseClass(): string {
+        return "breadcrumb";
     }
 
     get contentChild() {

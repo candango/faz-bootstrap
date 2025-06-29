@@ -25,20 +25,10 @@ export class FazBsAlert extends FazBsElement {
 
     constructor() {
         super();
-        if (this.kind() === undefined) {
-            this.setKind("primary");
-        }
     }
 
-    get classNames() {
-        let classes = ["alert"];
-        if (this.extraClasses()) {
-            classes.push(this.extraClasses());
-        }
-        if (this.kind()) {
-            classes.push(`alert-${this.kind()}`);
-        }
-        return classes.join(" ");
+    get baseClass(): string {
+        return "alert";
     }
 
     show() {

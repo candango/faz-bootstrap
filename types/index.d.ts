@@ -13,17 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+export type { FazBsAttrKind, FazBsAttrPosition } from "./bs-attributes";
 export { FazBsElement } from "./bs-element";
 export { FazBsAlert } from "./alert/alert";
 export { FazBsBadge } from "./badge/badge";
 export { FazBsBreadcrumb, FazBsBreadcrumbItem } from "./breadcrumb/breadcrumb";
 export { FazBsInputFilterbox } from "./input/filterbox";
 export type { InitCallback, FilterCallback } from "./input/filterbox";
+export { FazBsLink } from "./link/link";
 export { FazBsListGroup, FazBsListGroupItem } from "./list-group/list-group";
 export { FazBsNav, FazBsNavItem, FazBsNavItemContent, FazBsNavTab } from "./nav/nav";
 export { FazBsNavbar, FazBsNavbarBrand, FazBsNavbarToggler, FazBsNavbarCollapse } from "./navbar/navbar";
 export type { FazBsElementAttributes, FazBsInputFilterboxAttributes } from "./bs-tsx";
-import { FazBsAlert, FazBsBadge, FazBsInputFilterbox } from ".";
+import { FazBsAlert, FazBsBadge, FazBsInputFilterbox, FazBsLink, FazBsListGroup, FazBsListGroupItem } from ".";
 import { FazBsElementAttributes, FazBsInputFilterboxAttributes } from ".";
 declare module "solid-js" {
     namespace JSX {
@@ -31,6 +33,9 @@ declare module "solid-js" {
             'faz-bs-alert': FazBsElementAttributes<FazBsAlert>;
             'faz-bs-badge': FazBsElementAttributes<FazBsBadge>;
             'faz-bs-input-filterbox': FazBsInputFilterboxAttributes<FazBsInputFilterbox>;
+            'faz-bs-list-group': FazBsInputFilterboxAttributes<FazBsListGroup>;
+            'faz-bs-link': FazBsInputFilterboxAttributes<FazBsLink>;
+            'faz-bs-list-group-item': FazBsInputFilterboxAttributes<FazBsListGroupItem>;
         }
     }
 }

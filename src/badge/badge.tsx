@@ -23,15 +23,12 @@ export class FazBsBadge extends FazBsElement {
 
     private badgeItem: JSX.Element;
 
-    get classNames() {
-        let classes = ["badge"];
-        if (this.extraClasses()) {
-            classes.push(this.extraClasses());
-        }
-        if (this.kind()) {
-            classes.push(`text-bg-${this.kind()}`);
-        }
-        return classes.join(" ");
+    get baseClass(): string {
+        return "badge";
+    }
+
+    get classPrefix(): string {
+        return "text-bg";
     }
 
     renderBadge(): JSX.Element {

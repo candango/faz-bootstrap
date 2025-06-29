@@ -20,7 +20,7 @@ export declare class FazBsBreadcrumbItem extends FazBsElement {
     private itemSpam;
     get aClassNames(): string;
     get spamClassNames(): string;
-    get classNames(): string;
+    get baseClass(): string;
     get contentChild(): ChildNode;
     get isEdge(): boolean;
     private ariaCurrentValue;

@@ -14,14 +14,17 @@
  * limitations under the License.
  */
 
-import { FazElement } from "faz/src";
+import { FazBsAttrKind } from "./bs-attributes";
+import { FazElement, toBoolean } from "faz/src";
 import { Accessor, createSignal, Setter } from "solid-js";
 
 
 export class FazBsElement extends FazElement {
 
-    public kind: Accessor<string|undefined>;
-    public setKind: Setter<string|undefined>;
+    public outline: Accessor<boolean>;
+    public setOutline: Setter<boolean>;
+    public kind: Accessor<FazBsAttrKind>;
+    public setKind: Setter<FazBsAttrKind>;
     public target: Accessor<string|undefined>;
     public setTarget: Setter<string|undefined>;
     public theme: Accessor<string|undefined>;
@@ -30,7 +33,8 @@ export class FazBsElement extends FazElement {
     constructor() {
         super();
 
-        [this.kind, this.setKind] = createSignal<string|undefined>(undefined);
+        [this.outline, this.setOutline] = createSignal<boolean>(false);
+        [this.kind, this.setKind] = createSignal<FazBsAttrKind>(undefined);
         [this.target, this.setTarget] = createSignal<string|undefined>(undefined);
         [this.theme, this.setTheme] = createSignal<string|undefined>(undefined);
 
@@ -41,7 +45,10 @@ export class FazBsElement extends FazElement {
                     this.setExtraClasses(attribute.value);
                     break;
                 case "kind":
-                    this.setKind(attribute.value.toLowerCase());
+                    this.setKind(attribute.value.toLowerCase() as FazBsAttrKind);
+                    break;
+                case "outline":
+                    this.setOutline(toBoolean(attribute.value));
                     break;
                 case "target":
                     this.setTarget(attribute.value);
@@ -51,5 +58,54 @@ export class FazBsElement extends FazElement {
                     break;
             }
         }
+    }
+
+    public getClasses(baseClass:string|undefined): string[] {
+        let classes = <string[]>[baseClass];
+        const active = this.active();
+        const disabled = this.disabled();
+
+        if (active && !disabled) {
+            classes.push("active");
+        }
+        if (disabled) {
+            classes.push("disabled");
+        }
+        if (this.kind()) {
+            classes.push(this.kindClass() as string)
+        }
+        return classes
+    }
+
+    get baseClass(): string {
+        return "";
+    }
+
+    get controlledLink(): string|undefined {
+        if (this.disabled() || this.link()===undefined) {
+            return undefined;
+        }
+        return this.link();
+    }
+
+    get classNames() {
+        let classes = this.getClasses(this.baseClass);
+        if (this.extraClasses()) {
+            classes.push(this.extraClasses());
+        }
+        return classes.join(" ").trim();
+    }
+
+    get classPrefix(): string {
+        return this.baseClass;
+    }
+
+    public kindClass(): string|undefined {
+        if (this.kind() == undefined) {
+            undefined;
+        }
+        let outline = this.outline() ? "outline-" : "";
+        let classPrefix = this.classPrefix.trim() !== "" ? `${this.classPrefix}-` : "";
+        return `${classPrefix}${outline}${this.kind()}`;
     }
 }

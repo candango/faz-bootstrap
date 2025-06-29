@@ -14,5 +14,5 @@
  * limitations under the License.
  */
 
-import "../../src/input/filterbox";
 import "../../src/breadcrumb/breadcrumb";
+import "../../src/input/filterbox";

@@ -16,7 +16,7 @@
 import { FazBsElement } from "../bs-element";
 export declare class FazBsBreadcrumb extends FazBsElement {
     private itemOl;
-    get classNames(): string;
+    get baseClass(): string;
     get contentChild(): ChildNode;
     show(): void;
 }

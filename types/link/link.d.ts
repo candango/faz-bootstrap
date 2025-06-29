@@ -18,7 +18,6 @@ export declare class FazBsLink extends FazBsElement {
     private linkElement;
     constructor();
     get classNames(): string;
-    get controlledLink(): string | undefined;
     show(): void;
 }
 //# sourceMappingURL=link.d.ts.map

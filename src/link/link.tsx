@@ -48,13 +48,6 @@ export class FazBsLink extends FazBsElement {
         return classes.join(" ");
     }
 
-    get controlledLink(): string|undefined {
-        if (this.disabled() || this.link()===undefined) {
-            return undefined;
-        }
-        return this.link();
-    }
-
     show() {
         this.linkElement = <a id={`faz-bs-list-group-${this.id}`} href={this.controlledLink} class={this.classNames}>{this.content()}</a>;
         render(() => this.linkElement, this);

@@ -42,12 +42,8 @@ export class FazBsBreadcrumbItem extends FazBsElement {
         return classes.join(" ");
     }
 
-    get classNames() {
-        let classes = ["breadcrumb-item"];
-        if (this.active()) {
-            classes.push("active");
-        }
-        return classes.join(" ");
+    get baseClass(): string {
+        return "breadcrumb-item";
     }
 
     get contentChild() {

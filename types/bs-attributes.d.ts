@@ -13,13 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { FazBsElement } from "../bs-element";
-import { JSX } from "solid-js/jsx-runtime";
-export declare class FazBsBadge extends FazBsElement {
-    private badgeItem;
-    get baseClass(): string;
-    get classPrefix(): string;
-    renderBadge(): JSX.Element;
-    show(): void;
-}
-//# sourceMappingURL=badge.d.ts.map
+export type FazBsAttrKind = "body-emphasis" | "dark" | "danger" | "warning" | "info" | "link" | "light" | "primary" | "secondary" | "success" | undefined;
+export type FazBsAttrPosition = "absolute" | "fixed" | "static" | "relative" | "stick" | undefined;
+//# sourceMappingURL=bs-attributes.d.ts.map
