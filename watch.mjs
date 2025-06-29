@@ -23,6 +23,7 @@ import { solidPlugin } from "esbuild-plugin-solid";
 entryPoints.push({ out: "alert-solid.bundle", in: "showcase/src/alert.ts" });
 entryPoints.push({ out: "badge-solid.bundle", in: "showcase/src/badge.ts" });
 entryPoints.push({ out: "breadcrumb-solid.bundle", in: "showcase/src/breadcrumb.ts" });
+entryPoints.push({ out: "button-solid.bundle", in: "showcase/src/button.ts" });
 entryPoints.push({ out: "form.bundle", in: "showcase/src/form.ts" });
 entryPoints.push({ out: "index.bundle", in: "showcase/src/index.ts" });
 entryPoints.push({ out: "input.bundle", in: "showcase/src/input.ts" });

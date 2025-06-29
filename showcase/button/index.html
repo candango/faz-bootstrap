@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="favicon.ico">
+
+    <title>Candango Faz Toolkit - Button</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/dist/vendor/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/dist/css/faz-bs.css" rel="stylesheet"/>
+    <link href="/dist/css/showcase.css" rel="stylesheet"/>
+    <script src="/dist/theme.bundle.js" ></script>
+    <!-- Custom styles for this template -->
+</head>
+
+<body>
+<main-navbar></main-navbar>
+
+<main role="main" class="container">
+    <faz-bs-breadcrumb faz-id="mainBreadcrumb">
+        <faz-bs-breadcrumb-item id="toHomeBreadCrumbItem" href="/">Home</faz-bs-breadcrumb-item>
+        <faz-bs-breadcrumb-item id="currenBreadCrumbItem">Button</faz-bs-breadcrumb-item>
+    </faz-bs-breadcrumb>
+    <h1>List Groups</h1>
+    <div class="card">
+        <div class="card-body">
+            <h2 class="card-title">Base class</h2>
+            <p class="card-text">This is just an button example.</p>
+            <div id="buttonExample"><p><faz-bs-button>Base button</faz-bs-button></p></div>
+<br>
+    <div class="card">
+        <div class="card-body">
+            <h2 class="card-title">Variants</h2>
+            <p class="card-text">Those are button variants.</p>
+            <div id="buttonVariantsExample"><faz-bs-button kind="primary">Primary</faz-bs-button>
+<faz-bs-button kind="secondary">Secondary</faz-bs-button>
+<faz-bs-button kind="success">Success</faz-bs-button>
+<faz-bs-button kind="danger">Danger</faz-bs-button>
+<faz-bs-button kind="warning">Warning</faz-bs-button>
+<faz-bs-button kind="info">Info</faz-bs-button>
+<faz-bs-button kind="light">Light</faz-bs-button>
+<faz-bs-button kind="dark">Dark</faz-bs-button>
+<faz-bs-button kind="link">Dark</faz-bs-button></div>
+        </div>
+    </div>
+    <br>
+    <br>
+    <div class="card">
+        <div class="card-body">
+            <h2 class="card-title">Button tags</h2>
+            <p class="card-text">Those are ways to change the button rendered tag.</p>
+            <div id="buttonTagsExample"><faz-bs-button kind="primary" link="#" element-type="a">Button as Link</faz-bs-button>
+<faz-bs-button kind="primary" type="submit">Submit Button</faz-bs-button>
+<faz-bs-button kind="primary" element-type="input" type="button" value="Button as Input Button"></faz-bs-button>
+<faz-bs-button kind="primary" element-type="input" type="submit" value="Button as Input Submit"></faz-bs-button>
+<faz-bs-button kind="primary" element-type="input" type="reset" value="Button as Input Reset"></faz-bs-button></div>
+        </div>
+    </div>
+    <br>
+    <br>
+    <div class="card">
+        <div class="card-body">
+            <h2 class="card-title">Outline buttons</h2>
+            <p class="card-text">In need of a button, but not the hefty
+background colors they bring? Add the outline="true" property to remove all
+background images and colors on any button.</p>
+            <div id="buttonVariantsExample"><faz-bs-button kind="primary" outline="true">Primary</faz-bs-button>
+<faz-bs-button kind="secondary" outline="true">Secondary</faz-bs-button>
+<faz-bs-button kind="success" outline="true">Success</faz-bs-button>
+<faz-bs-button kind="danger" outline="true">Danger</faz-bs-button>
+<faz-bs-button kind="warning" outline="true">Warning</faz-bs-button>
+<faz-bs-button kind="info" outline="true">Info</faz-bs-button>
+<faz-bs-button kind="light" outline="true">Light</faz-bs-button>
+<faz-bs-button kind="dark" outline="true">Dark</faz-bs-button></div>
+        </div>
+    </div>
+    <br>
+    <br>
+</main><!-- /.container -->
+
+<script src="/dist/global.bundle.js" ></script>
+<script>
+    codemirrorit("buttonExample");
+    codemirrorit("buttonVariantsExample");
+    codemirrorit("buttonTagsExample");
+</script>
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="/dist/vendor/popper.min.js"></script>
+<script src="/dist/vendor/bootstrap.min.js"></script>
+<script src="/dist/button-solid.bundle.js"></script>
+
+</body>
+</html>
