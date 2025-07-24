@@ -86,16 +86,21 @@ export class FazBsBreadcrumbItem extends FazBsElement {
         }, this.link());
     }
 
+    disconnect() {
+        (this.itemLi as Node).parentNode?.removeChild(this.itemLi as Node);
+    }
+
     show() {
         this.itemA = <a class={this.aClassNames} href={this.link()}></a>;
         this.itemSpam = <span class={this.spamClassNames}></span>;
         this.itemLi = <li 
                id={`faz-bs-breadcrumb-item-${this.id}`}
                class={this.classNames}
+               onclick={() => {console.log(this.previousSibling)}}
                aria-current={this.ariaCurrentValue()}
                aria-label="breadcrumb">
                {this.itemA}{this.itemSpam}
                </li>;
-        render(() => this.itemLi, this);
+        render(() => this.itemLi, this.parent()?.contentChild as Node);
     }
 }

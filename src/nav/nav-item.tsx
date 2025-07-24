@@ -38,6 +38,7 @@ export class FazBsNavItem extends FazBsElement {
         [this.linkClasses, this.setLinkClasses] = createSignal<string>("");
 
         this.previousChild = null;
+        this.classList.add("nav-item");
     }
 
     get contentChild() {
@@ -237,12 +238,6 @@ export class FazBsNavItem extends FazBsElement {
     }
 
     show() {
-        const item = this.renderItem();
-        const parent = this.parent() as FazBsNav;
-        if (this.isRoot && parent.fill()){
-            render(() => item, parent.contentChild as MountableElement);
-            return;
-        }
-        render(() => item, this);
+        render(() => this.renderItem(), this);
     }
 }

@@ -30,12 +30,12 @@ import { FazBsElementAttributes, FazBsInputFilterboxAttributes } from ".";
 declare module "solid-js" {
     namespace JSX {
         interface IntrinsicElements {
-            'faz-bs-alert': FazBsElementAttributes<FazBsAlert>;
-            'faz-bs-badge': FazBsElementAttributes<FazBsBadge>;
-            'faz-bs-input-filterbox': FazBsInputFilterboxAttributes<FazBsInputFilterbox>;
-            'faz-bs-list-group': FazBsInputFilterboxAttributes<FazBsListGroup>;
-            'faz-bs-link': FazBsInputFilterboxAttributes<FazBsLink>;
-            'faz-bs-list-group-item': FazBsInputFilterboxAttributes<FazBsListGroupItem>;
+            "faz-bs-alert": FazBsElementAttributes<FazBsAlert>;
+            "faz-bs-badge": FazBsElementAttributes<FazBsBadge>;
+            "faz-bs-input-filterbox": FazBsInputFilterboxAttributes<FazBsInputFilterbox>;
+            "faz-bs-list-group": FazBsInputFilterboxAttributes<FazBsListGroup>;
+            "faz-bs-link": FazBsInputFilterboxAttributes<FazBsLink>;
+            "faz-bs-list-group-item": FazBsInputFilterboxAttributes<FazBsListGroupItem>;
         }
     }
 }

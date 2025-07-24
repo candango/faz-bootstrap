@@ -18,6 +18,8 @@ export declare class FazBsBreadcrumbItem extends FazBsElement {
     private itemLi;
     private itemA;
     private itemSpam;
+    private aComment;
+    constructor();
     get aClassNames(): string;
     get spamClassNames(): string;
     get baseClass(): string;
@@ -25,6 +27,7 @@ export declare class FazBsBreadcrumbItem extends FazBsElement {
     get isEdge(): boolean;
     private ariaCurrentValue;
     afterShow(): void;
+    disconnect(): void;
     show(): void;
 }
 //# sourceMappingURL=breadcrumb-item.d.ts.map

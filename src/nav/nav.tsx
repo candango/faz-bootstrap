@@ -49,9 +49,10 @@ export class FazBsNav extends FazBsElement {
     public setJustify: Setter<string>;
     public pills: Accessor<boolean>;
     public setPills: Setter<boolean>;
+    public undeline: Accessor<boolean>;
+    public setUndeline: Setter<boolean>;
     public vertical: Accessor<boolean>;
     public setVertical: Setter<boolean>;
-    private _tabClasses: string = "";
    
     private outerContainer: JSX.Element;
     private tabList: JSX.Element;
@@ -67,6 +68,7 @@ export class FazBsNav extends FazBsElement {
         [this.fill, this.setFill] = createSignal<boolean>(false);
         [this.justify, this.setJustify] = createSignal<string>("");
         [this.pills, this.setPills] = createSignal<boolean>(false);
+        [this.undeline, this.setUndeline] = createSignal<boolean>(false);
         [this.vertical, this.setVertical] = createSignal<boolean>(false);
 
         for (let attribute of this.attributes) {
@@ -79,6 +81,9 @@ export class FazBsNav extends FazBsElement {
                     break;
                 case "pills":
                     this.setPills(toBoolean(attribute.value));
+                    break;
+                case "underline":
+                    this.setUndeline(toBoolean(attribute.value));
                     break;
                 case "vertical":
                     this.setVertical(toBoolean(attribute.value));
@@ -123,6 +128,9 @@ export class FazBsNav extends FazBsElement {
         if (this.pills()) {
             classes.push("nav-pills");
         }
+        if (this.undeline()) {
+            classes.push("nav-underline");
+        }
         if (this.fill()) {
             classes.push("nav-fill");
         }
@@ -133,7 +141,7 @@ export class FazBsNav extends FazBsElement {
         if (justify === "right") {
             classes.push("justify-content-end");
         }
-        if (this.hasTabs) {
+        if (this.hasTabs && !this.vertical()) {
             classes.push("nav-tabs");
         }
         if (this.vertical()) {
@@ -177,7 +185,7 @@ export class FazBsNav extends FazBsElement {
     get navItemChildrenActive() {
         const children = this.fazChildren();
         return children.filter(child => {
-            return child instanceof FazBsNavItem && child.active;
+            return child instanceof FazBsNavItem && child.active();
         });
     }
 
@@ -197,6 +205,7 @@ export class FazBsNav extends FazBsElement {
 
     get outerContainerClassNames() {
         const classes = [];
+        this.classList.remove(...this.classList);
         if (this.insideNavbar) {
             classes.push("collapse");
             classes.push("navbar-collapse");

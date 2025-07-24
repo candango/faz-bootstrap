@@ -42,11 +42,28 @@ export {
     FazBsNavbar, FazBsNavbarBrand, FazBsNavbarToggler, FazBsNavbarCollapse
 } from "./navbar/navbar";
 
+export { FazBsPagination } from "./pagination/pagination";
+
 export type { FazBsElementAttributes, FazBsInputFilterboxAttributes } from "./bs-tsx";
 
 import {
-    FazBsAlert, FazBsBadge, FazBsInputFilterbox, FazBsLink, FazBsListGroup,
-    FazBsListGroupItem
+    FazBsAlert,
+    FazBsBadge,
+    FazBsBreadcrumb,
+    FazBsBreadcrumbItem,
+    FazBsInputFilterbox,
+    FazBsLink,
+    FazBsListGroup,
+    FazBsListGroupItem,
+    FazBsNav,
+    FazBsNavItem,
+    FazBsNavItemContent,
+    FazBsNavTab,
+    FazBsNavbar,
+    FazBsNavbarBrand,
+    FazBsNavbarToggler,
+    FazBsNavbarCollapse,
+    FazBsPagination
 } from ".";
 
 import { FazBsElementAttributes, FazBsInputFilterboxAttributes } from ".";
@@ -54,12 +71,23 @@ import { FazBsElementAttributes, FazBsInputFilterboxAttributes } from ".";
 declare module "solid-js" {
     namespace JSX {
         interface IntrinsicElements {
-            'faz-bs-alert': FazBsElementAttributes<FazBsAlert>;
-            'faz-bs-badge': FazBsElementAttributes<FazBsBadge>;
-            'faz-bs-input-filterbox': FazBsInputFilterboxAttributes<FazBsInputFilterbox>;
-            'faz-bs-list-group': FazBsInputFilterboxAttributes<FazBsListGroup>;
-            'faz-bs-link': FazBsInputFilterboxAttributes<FazBsLink>;
-            'faz-bs-list-group-item': FazBsInputFilterboxAttributes<FazBsListGroupItem>;
+            "faz-bs-alert": FazBsElementAttributes<FazBsAlert>;
+            "faz-bs-badge": FazBsElementAttributes<FazBsBadge>;
+            "faz-bs-breadcrumb": FazBsElementAttributes<FazBsBreadcrumb>;
+            "faz-bs-breadcrumb-item": FazBsElementAttributes<FazBsBreadcrumbItem>;
+            "faz-bs-input-filterbox": FazBsInputFilterboxAttributes<FazBsInputFilterbox>;
+            "faz-bs-list-group": FazBsInputFilterboxAttributes<FazBsListGroup>;
+            "faz-bs-link": FazBsInputFilterboxAttributes<FazBsLink>;
+            "faz-bs-list-group-item": FazBsInputFilterboxAttributes<FazBsListGroupItem>;
+            "faz-bs-nav": FazBsElementAttributes<FazBsNav>;
+            "faz-bs-nav-item": FazBsElementAttributes<FazBsNavItem>;
+            "faz-bs-nav-item-content": FazBsElementAttributes<FazBsNavItemContent>;
+            "faz-bs-nav-tab": FazBsElementAttributes<FazBsNavTab>;
+            "faz-bs-navbar": FazBsElementAttributes<FazBsNavbar>;
+            "faz-bs-navbar-brand": FazBsElementAttributes<FazBsNavbarBrand>;
+            "faz-bs-navbar-toggler": FazBsElementAttributes<FazBsNavbarToggler>;
+            "faz-bs-navbar-collapse": FazBsElementAttributes<FazBsNavbarCollapse>;
+            "faz-bs-pagination": FazBsElementAttributes<FazBsPagination>;
         }
     }
 }

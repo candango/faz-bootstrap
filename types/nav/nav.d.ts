@@ -26,9 +26,10 @@ export declare class FazBsNav extends FazBsElement {
     setJustify: Setter<string>;
     pills: Accessor<boolean>;
     setPills: Setter<boolean>;
+    undeline: Accessor<boolean>;
+    setUndeline: Setter<boolean>;
     vertical: Accessor<boolean>;
     setVertical: Setter<boolean>;
-    private _tabClasses;
     private outerContainer;
     private tabList;
     private tabContainer;

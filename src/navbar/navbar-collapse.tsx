@@ -35,9 +35,12 @@ export class FazBsNavbarCollapse extends FazBsElement {
         return this.collapse as ChildNode;
     }
 
+    disconnect() {
+        (this.collapse as Node).parentNode?.removeChild(this.collapse as Node);
+    }
 
     show() {
         this.collapse = <div id={`faz-bs-navbar-collapse-${this.id}`} class={this.classNames}></div>;
-        render(() => this.collapse, this);
+        render(() => this.collapse, this.parent()?.contentChild as Node);
     }
 }

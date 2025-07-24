@@ -62,13 +62,11 @@ export class FazBsElement extends FazElement {
 
     public getClasses(baseClass:string|undefined): string[] {
         let classes = <string[]>[baseClass];
-        const active = this.active();
-        const disabled = this.disabled();
 
-        if (active && !disabled) {
+        if (this.active()) {
             classes.push("active");
         }
-        if (disabled) {
+        if (this.disabled()) {
             classes.push("disabled");
         }
         if (this.kind()) {
