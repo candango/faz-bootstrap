@@ -68,7 +68,7 @@
             <p class="card-text">In need of a button, but not the hefty
 background colors they bring? Add the outline="true" property to remove all
 background images and colors on any button.</p>
-            <div id="buttonVariantsExample"><faz-bs-button kind="primary" outline="true">Primary</faz-bs-button>
+            <div id="buttonOutlineExample"><faz-bs-button kind="primary" outline="true">Primary</faz-bs-button>
 <faz-bs-button kind="secondary" outline="true">Secondary</faz-bs-button>
 <faz-bs-button kind="success" outline="true">Success</faz-bs-button>
 <faz-bs-button kind="danger" outline="true">Danger</faz-bs-button>
@@ -80,6 +80,41 @@ background images and colors on any button.</p>
     </div>
     <br>
     <br>
+    <div class="card">
+        <div class="card-body">
+            <h2 class="card-title">Sizes</h2>
+            <p class="card-text">Fancy larger or smaller buttons? Add <code>size</code>
+            attribute with <code>lg</code>, <code>large</code>, <code>sm</code> or <code>small</code> for additional sizes.</p>
+            <div id="buttonSizeExample"><faz-bs-button kind="primary" size="small">Primary</faz-bs-button>
+<faz-bs-button kind="secondary" size="sm">Secondary</faz-bs-button>
+<faz-bs-button kind="success" size="large">Success</faz-bs-button>
+<faz-bs-button kind="danger" size="lg">Danger</faz-bs-button></div>
+        </div>
+    </div>
+    <br>
+    <br>
+    <div class="card">
+        <div class="card-body">
+            <h2 class="card-title">Disabled state</h2>
+            <p class="card-text">Make buttons look inactive by adding the disabled boolean attribute.</p>
+            <div id="buttonDisabledExample"><faz-bs-button kind="primary" disabled="true">Primary</faz-bs-button>
+<faz-bs-button kind="primary" element-type="input" type="button" value="Disabled input" disabled="true"></faz-bs-button>
+<faz-bs-button kind="primary" link="#" element-type="a" disabled="true">Disabled Link</faz-bs-button></div>
+        </div>
+    </div>
+    <br>
+    <br>
+    <div class="card">
+        <div class="card-body">
+            <h2 class="card-title">Toggle states</h2>
+            <p class="card-text">Make buttons look inactive by adding the disabled boolean attribute.</p>
+            <div id="buttonSizeExample"><faz-bs-button outline="true" toggleable="true">Toggleable</faz-bs-button>
+<faz-bs-button kind="primary" outline="true" toggleable="true" active="true">Active toggleable</faz-bs-button>
+<faz-bs-button kind="primary" link="#" element-type="a" disabled="true">Disabled Link</faz-bs-button></div>
+        </div>
+    </div>
+    <br>
+    <br>
 </main><!-- /.container -->
 
 <script src="/dist/global.bundle.js" ></script>
@@ -87,6 +122,9 @@ background images and colors on any button.</p>
     codemirrorit("buttonExample");
     codemirrorit("buttonVariantsExample");
     codemirrorit("buttonTagsExample");
+    codemirrorit("buttonOutlineExample");
+    codemirrorit("buttonSizeExample");
+    codemirrorit("buttonDisabledExample");
 </script>
 
 <!-- Bootstrap core JavaScript
