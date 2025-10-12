@@ -36,10 +36,10 @@
         "bootstrap": "5.3.7",
         "bootstrap-icons": "1.13.1",
         "bootswatch": "5.3.7",
-        "faz": "0.4.1",
+        "faz": "0.4.2",
         "less": "4.3.0",
         "lodash": "4.17.21",
-        "solid-js": "1.9.7"
+        "solid-js": "1.9.9"
     },
     "resolutions": {
         "@codemirror/state": "6.5.2"
@@ -51,13 +51,13 @@
         "@codemirror/view": "6.37.2",
         "@types/lodash": "4.17.16",
         "@types/nise": "1.4.5",
-        "@types/node": "24.0.3",
-        "esbuild": "0.25.5",
+        "@types/node": "24.7.2",
+        "esbuild": "0.25.10",
         "esbuild-plugin-copy": "2.1.1",
         "esbuild-plugin-solid": "0.6.0",
         "nise": "6.1.1",
-        "prettier": "3.5.3",
-        "typescript": "5.8.3"
+        "ts-node": "10.9.2",
+        "typescript": "5.9.3"
     },
     "scripts": {
         "watch": "npm run watch:clean && node watch.mjs",
