@@ -13,19 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { FazBsElement } from "../bs-element";
-export declare class FazBsBreadcrumbItem extends FazBsElement {
-    private itemLi;
-    private itemA;
-    private itemSpam;
-    get aClassNames(): string;
-    get spamClassNames(): string;
-    get baseClass(): string;
-    get contentChild(): ChildNode;
-    get isEdge(): boolean;
-    private ariaCurrentValue;
-    afterShow(): void;
-    disconnect(): void;
-    show(): void;
-}
-//# sourceMappingURL=breadcrumb-item.d.ts.map
+
+import "../../src/calendar/calendar-pane";
+import "../../src/breadcrumb/breadcrumb";
+

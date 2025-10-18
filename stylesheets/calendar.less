@@ -1,0 +1,27 @@
+.current-hour-indicator {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: red;
+    z-index: 10;
+    pointer-events: none;
+    transition: top 0.2s;
+}
+
+.floating-time-label {
+    position: absolute;
+    left: 0;
+    top: -18px;
+    padding: 2px 8px;
+    font-size: 12px;
+    font-family: monospace;
+    background: #fff;
+    color: #d00;
+    border: 1px solid #d00;
+    border-radius: 4px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    pointer-events: none;
+    white-space: nowrap;
+}
+

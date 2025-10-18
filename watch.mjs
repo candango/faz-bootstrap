@@ -24,6 +24,7 @@ entryPoints.push({ out: "alert-solid.bundle", in: "showcase/src/alert.ts" });
 entryPoints.push({ out: "badge-solid.bundle", in: "showcase/src/badge.ts" });
 entryPoints.push({ out: "breadcrumb-solid.bundle", in: "showcase/src/breadcrumb.ts" });
 entryPoints.push({ out: "button-solid.bundle", in: "showcase/src/button.ts" });
+entryPoints.push({ out: "calendar-pane-solid.bundle", in: "showcase/src/calendar-pane.ts" });
 entryPoints.push({ out: "card-solid.bundle", in: "showcase/src/card.ts" });
 entryPoints.push({ out: "form.bundle", in: "showcase/src/form.ts" });
 entryPoints.push({ out: "index.bundle", in: "showcase/src/index.ts" });
@@ -41,6 +42,7 @@ entryPoints.push({ out: "theme.bundle", in: "src/bs-theme.ts" });
 
 entryPoints.push({ out: "global.bundle", in: "showcase/src/global.ts" });
 entryPoints.push({ out: "css/showcase", in: "stylesheets/showcase.css"});
+entryPoints.push({ out: "css/calendar", in: "stylesheets/calendar.css"});
 
 let ctx = await context({
     entryPoints: entryPoints,

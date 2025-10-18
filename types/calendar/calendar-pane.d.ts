@@ -13,19 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import { CalendarHelper } from "./calendar-helper";
 import { FazBsElement } from "../bs-element";
-export declare class FazBsBreadcrumbItem extends FazBsElement {
-    private itemLi;
-    private itemA;
-    private itemSpam;
-    get aClassNames(): string;
-    get spamClassNames(): string;
-    get baseClass(): string;
-    get contentChild(): ChildNode;
-    get isEdge(): boolean;
-    private ariaCurrentValue;
-    afterShow(): void;
-    disconnect(): void;
-    show(): void;
+import { JSX } from "solid-js/jsx-runtime";
+declare global {
+    var calHelper: CalendarHelper;
 }
-//# sourceMappingURL=breadcrumb-item.d.ts.map
+export declare class FazBsCalendarPane extends FazBsElement {
+    private divElement;
+    private hourLine;
+    private hourLabel;
+    private SLOT_HEIGHT;
+    private SLOTS_PER_HOUR;
+    private TOTAL_SLOTS;
+    private quaterLabels;
+    constructor();
+    get classNames(): string;
+    get baseClass(): string;
+    renderDays(): JSX.Element;
+    updateCurrentHour(): void;
+    show(): void;
+    afterShow(): void;
+}
+//# sourceMappingURL=calendar-pane.d.ts.map
