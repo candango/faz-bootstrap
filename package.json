@@ -32,14 +32,14 @@
     ],
     "dependencies": {
         "@popperjs/core": "2.11.8",
-        "axios": "1.10.0",
+        "axios": "1.13.2",
         "bootstrap": "5.3.8",
         "bootstrap-icons": "1.13.1",
         "bootswatch": "5.3.8",
-        "faz": "0.4.2",
-        "less": "4.3.0",
+        "faz": "0.4.3",
+        "less": "4.5.1",
         "lodash": "4.17.21",
-        "solid-js": "1.9.9"
+        "solid-js": "1.9.10"
     },
     "resolutions": {
         "@codemirror/state": "6.5.2"
@@ -52,7 +52,7 @@
         "@types/lodash": "4.17.16",
         "@types/nise": "1.4.5",
         "@types/node": "24.7.2",
-        "esbuild": "0.25.10",
+        "esbuild": "0.27.2",
         "esbuild-plugin-copy": "2.1.1",
         "esbuild-plugin-solid": "0.6.0",
         "nise": "6.1.1",
