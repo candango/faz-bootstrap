@@ -45,7 +45,7 @@
         "@codemirror/state": "6.5.2"
     },
     "devDependencies": {
-        "@codemirror/lang-html": "6.4.9",
+        "@codemirror/lang-html": "6.4.11",
         "@codemirror/language": "6.11.1",
         "@codemirror/state": "6.5.2",
         "@codemirror/view": "6.37.2",
