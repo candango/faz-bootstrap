@@ -1,19 +1,3 @@
-/**
- * Copyright 2018-2025 Flavio Garcia
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *    http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 export type {
     FazBsAttrKind, FazBsAttrPosition
 } from "./bs-attributes";
@@ -25,6 +9,32 @@ export { FazBsAlert } from "./alert/alert";
 export { FazBsBadge } from "./badge/badge";
 
 export { FazBsBreadcrumb, FazBsBreadcrumbItem } from "./breadcrumb/breadcrumb";
+
+export { FazBsButton } from "./button/button";
+
+export { FazBsCalendar } from "./calendar/calendar";
+
+export { FazBsCalendarPane } from "./calendar/calendar-pane";
+
+export { FazBsCard } from "./card/card";
+
+export { FazBsCardBody } from "./card/card-body";
+
+export { FazBsCollapse } from "./collapse/collapse";
+
+export { FazBsGrid } from "./grid/grid";
+
+export { FazBsGridCol } from "./grid/grid-col";
+
+export { FazBsGridHead } from "./grid/grid-head";
+
+export { FazBsGridRow } from "./grid/grid-row";
+
+export { FazBsInput } from "./input/input";
+
+export { FazBsInputGroup } from "./input/group";
+
+export { FazBsInputGroupText } from "./input/group-text";
 
 export { FazBsInputFilterbox } from "./input/filterbox";
 
@@ -51,6 +61,19 @@ import {
     FazBsBadge,
     FazBsBreadcrumb,
     FazBsBreadcrumbItem,
+    FazBsButton,
+    FazBsCalendar,
+    FazBsCalendarPane,
+    FazBsCard,
+    FazBsCardBody,
+    FazBsCollapse,
+    FazBsGrid,
+    FazBsGridCol,
+    FazBsGridHead,
+    FazBsGridRow,
+    FazBsInput,
+    FazBsInputGroup,
+    FazBsInputGroupText,
     FazBsInputFilterbox,
     FazBsLink,
     FazBsListGroup,
@@ -75,10 +98,23 @@ declare module "solid-js" {
             "faz-bs-badge": FazBsElementAttributes<FazBsBadge>;
             "faz-bs-breadcrumb": FazBsElementAttributes<FazBsBreadcrumb>;
             "faz-bs-breadcrumb-item": FazBsElementAttributes<FazBsBreadcrumbItem>;
+            "faz-bs-button": FazBsElementAttributes<FazBsButton>;
+            "faz-bs-calendar": FazBsElementAttributes<FazBsCalendar>;
+            "faz-bs-calendar-pane": FazBsElementAttributes<FazBsCalendarPane>;
+            "faz-bs-card": FazBsElementAttributes<FazBsCard>;
+            "faz-bs-card-body": FazBsElementAttributes<FazBsCardBody>;
+            "faz-bs-collapse": FazBsElementAttributes<FazBsCollapse>;
+            "faz-bs-grid": FazBsElementAttributes<FazBsGrid>;
+            "faz-bs-grid-col": FazBsElementAttributes<FazBsGridCol>;
+            "faz-bs-grid-head": FazBsElementAttributes<FazBsGridHead>;
+            "faz-bs-grid-row": FazBsElementAttributes<FazBsGridRow>;
+            "faz-bs-input": FazBsElementAttributes<FazBsInput>;
+            "faz-bs-input-group": FazBsElementAttributes<FazBsInputGroup>;
+            "faz-bs-input-group-text": FazBsElementAttributes<FazBsInputGroupText>;
             "faz-bs-input-filterbox": FazBsInputFilterboxAttributes<FazBsInputFilterbox>;
-            "faz-bs-list-group": FazBsInputFilterboxAttributes<FazBsListGroup>;
-            "faz-bs-link": FazBsInputFilterboxAttributes<FazBsLink>;
-            "faz-bs-list-group-item": FazBsInputFilterboxAttributes<FazBsListGroupItem>;
+            "faz-bs-list-group": FazBsElementAttributes<FazBsListGroup>;
+            "faz-bs-link": FazBsElementAttributes<FazBsLink>;
+            "faz-bs-list-group-item": FazBsElementAttributes<FazBsListGroupItem>;
             "faz-bs-nav": FazBsElementAttributes<FazBsNav>;
             "faz-bs-nav-item": FazBsElementAttributes<FazBsNavItem>;
             "faz-bs-nav-item-content": FazBsElementAttributes<FazBsNavItemContent>;

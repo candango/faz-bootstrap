@@ -16,12 +16,12 @@
     ],
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/candango/faz-boostrap.git"
+        "url": "git+https://github.com/candango/faz-bootstrap.git"
     },
     "bugs": {
-        "url": "https://github.com/candango/faz-boostrap/issues"
+        "url": "https://github.com/candango/faz-bootstrap/issues"
     },
-    "homepage": "https://github.com/candango/faz-boostrap#readme",
+    "homepage": "https://github.com/candango/faz-bootstrap#readme",
     "author": "Flavio Garcia <piraz@candango.org>",
     "license": "MIT",
     "keywords": [
