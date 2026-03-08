@@ -24,7 +24,7 @@ export declare class FazBsNav extends FazBsElement {
     get insideNavbar(): boolean;
     get hasTabs(): boolean;
     get navItemChildren(): FazBsNavItem[];
-    get navItemChildrenActive(): import("faz").FazElement[];
+    get navItemChildrenActive(): import("faz/src").FazElement[];
     get onEdge(): boolean;
     get outerContainerId(): string;
     get outerContainerClassNames(): string;

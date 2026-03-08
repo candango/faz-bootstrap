@@ -1,7 +1,7 @@
 
 import { FazBsAlert } from "../../src/alert/alert";
 import { FazBsInputFilterbox, FilterableItem } from "../../src/input/filterbox";
-import { FazFormElement } from "faz";
+import { FazFormElement } from "faz/src";
 import { JSX } from "solid-js";
 import { render } from "solid-js/web";
 import { FakeServer, fakeServer, FakeXMLHttpRequest } from "nise";

@@ -1,5 +1,5 @@
 import { FazBsElement } from "../bs-element";
-import { FazPaginator } from "faz";
+import { FazPaginator } from "faz/src";
 import { JSX } from "solid-js";
 import { render } from "solid-js/web";
 

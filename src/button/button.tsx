@@ -1,6 +1,6 @@
 import { FazBsElement } from "../bs-element";
-import { toBoolean } from "faz";
-import { bindReactive } from "faz";
+import { toBoolean } from "faz/src";
+import { bindReactive } from "faz/src";
 import { JSX } from "solid-js/jsx-runtime";
 import { render } from "solid-js/web";
 

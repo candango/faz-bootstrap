@@ -1,5 +1,5 @@
 import { FazBsAttrKind } from "./bs-attributes";
-import { FazElement } from "faz";
+import { FazElement } from "faz/src";
 export declare class FazBsElement extends FazElement {
     outline: boolean;
     kind: FazBsAttrKind;

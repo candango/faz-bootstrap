@@ -1,4 +1,4 @@
-import { FazElement } from "faz";
+import { FazElement } from "faz/src";
 
 
 export class FazBsNavItemContent extends FazElement {

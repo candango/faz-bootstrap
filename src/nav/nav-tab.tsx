@@ -1,7 +1,7 @@
 import { FazBsNav } from "./nav";
 import { FazBsElement } from "../bs-element";
-import { toBoolean } from "faz";
-import { bindReactive } from "faz";
+import { toBoolean } from "faz/src";
+import { bindReactive } from "faz/src";
 import { render, MountableElement } from "solid-js/web";
 import { JSX } from "solid-js/jsx-runtime";
 

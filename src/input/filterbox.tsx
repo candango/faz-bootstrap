@@ -1,5 +1,5 @@
 import { FazBsElement } from "../bs-element";
-import { bindReactive } from "faz";
+import { bindReactive } from "faz/src";
 import { createEffect } from "solid-js";
 import { JSX } from "solid-js/jsx-runtime";
 import { render } from "solid-js/web";

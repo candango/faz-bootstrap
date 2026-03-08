@@ -1,5 +1,5 @@
 import { InitCallback, FilterCallback } from "./input/filterbox";
-import { FazElementAttributes } from "faz";
+import { FazElementAttributes } from "faz/src";
 
 export interface FazBsElementAttributes<T> extends FazElementAttributes<T> {
     kind?: string;

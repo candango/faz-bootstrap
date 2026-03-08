@@ -1,4 +1,4 @@
-import { FazElement } from "faz";
+import { FazElement } from "faz/src";
 import { JSX } from "solid-js/jsx-runtime";
 import { render } from "solid-js/web";
  

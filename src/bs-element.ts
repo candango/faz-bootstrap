@@ -1,6 +1,6 @@
 import { FazBsAttrKind } from "./bs-attributes";
-import { FazElement, toBoolean } from "faz";
-import { bindReactive } from "faz";
+import { FazElement, toBoolean } from "faz/src";
+import { bindReactive } from "faz/src";
 
 export class FazBsElement extends FazElement {
 
