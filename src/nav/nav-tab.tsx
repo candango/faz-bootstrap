@@ -1,27 +1,26 @@
 import { FazBsNav } from "./nav";
 import { FazBsElement } from "../bs-element";
-import { toBoolean } from "faz/src";
-import { Accessor, createSignal, Setter } from "solid-js";
-import { render } from "solid-js/web";
+import { toBoolean } from "faz";
+import { bindReactive } from "faz";
+import { render, MountableElement } from "solid-js/web";
 import { JSX } from "solid-js/jsx-runtime";
 
 
 export class FazBsNavTab extends FazBsElement {
 
-    public fade: Accessor<boolean>;
-    public setFade: Setter<boolean>;
+    public fade: boolean = false;
     
-    private navTabContainer: JSX.Element;
+    private navTabContainer: JSX.Element | undefined;
 
     constructor() {
         super();
 
-        [this.fade, this.setFade] = createSignal<boolean>(false);
+        bindReactive(this, "fade", false);
 
         for (let attribute of this.attributes) {
-            switch (attribute.name) {
+            switch (attribute.name.toLowerCase()) {
                 case "fade":
-                    this.setFade(toBoolean(attribute.value));
+                    this.fade = toBoolean(attribute.value);
                     break;
             }
         }
@@ -29,8 +28,8 @@ export class FazBsNavTab extends FazBsElement {
 
     get ariaLabelledby() {
         let labelledby = "";
-        this.parent()?.fazChildren().forEach((child) => {
-            if (this.id === child.link()) {
+        this.parent?.fazChildren.forEach((child) => {
+            if (this.id === child.link) {
                 labelledby = child.id;
                 return;
             }
@@ -40,13 +39,13 @@ export class FazBsNavTab extends FazBsElement {
 
     get classNames() {
         let classes = ["tab-pane"];
-        if (this.fade()) {
+        if (this.fade) {
             classes.push("fade");
-            if (this.active()) {
+            if (this.active) {
                 classes.push("show");
             }
         }
-        if (this.active()) {
+        if (this.active) {
             classes.push("anchor");
             classes.push("active");
         }
@@ -54,7 +53,7 @@ export class FazBsNavTab extends FazBsElement {
     }
 
     get contentChild() {
-        return this.navTabContainer as HTMLElement;
+        return this.navTabContainer as unknown as HTMLElement;
     }
 
     show() {
@@ -63,8 +62,8 @@ export class FazBsNavTab extends FazBsElement {
             class={this.classNames}
             role="tabpanel"
             aria-labelledby={this.ariaLabelledby}
-        ></div>;
-        const parent = this.parent() as unknown as FazBsNav;
-        render(() => this.navTabContainer, parent.tabContentChild);
+        >{this.content}</div>;
+        const parent = this.parent as unknown as FazBsNav;
+        render(() => this.navTabContainer, parent.tabContentChild as unknown as MountableElement);
     }
 }

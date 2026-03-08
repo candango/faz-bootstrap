@@ -5,7 +5,7 @@ import { render } from "solid-js/web";
 
 export class FazBsBadge extends FazBsElement {
 
-    private badgeItem: JSX.Element;
+    private badgeItem: JSX.Element | undefined;
 
     get baseClass(): string {
         return "badge";
@@ -17,10 +17,10 @@ export class FazBsBadge extends FazBsElement {
 
     renderBadge(): JSX.Element {
         if (this.linkIsVoid) {
-            this.badgeItem = <span id={`faz-bs-badge-${this.id}`} class={this.classNames}></span>;
+            this.badgeItem = <span id={`faz-bs-badge-${this.id}`} class={this.classNames}>{this.content}</span>;
             return this.badgeItem;
         }
-        this.badgeItem = <a id={`faz-bs-badge-${this.id}`} href={this.link()} class={this.classNames}></a>;
+        this.badgeItem = <a id={`faz-bs-badge-${this.id}`} href={this.link} class={this.classNames}>{this.content}</a>;
         return this.badgeItem;
     }
 

@@ -1,40 +1,40 @@
 import { FazBsNav } from "./nav";
 import { FazBsElement } from "../bs-element";
-import { Accessor, createSignal, JSX, Setter } from "solid-js";
-import { MountableElement, render } from "solid-js/web";
+import { bindReactive } from "faz";
+import { JSX } from "solid-js/jsx-runtime";
+import { render } from "solid-js/web";
 
 
 export class FazBsNavItem extends FazBsElement {
 
 
-    public linkClasses: Accessor<string>;
-    public setLinkClasses: Setter<string>;
+    public linkClasses: string = "";
 
-    private navItemLi: JSX.Element;
-    private navItemLink: JSX.Element;
-    private navItemUl: JSX.Element;
+    private navItemLi: JSX.Element | undefined;
+    private navItemLink: JSX.Element | undefined;
+    private navItemUl: JSX.Element | undefined;
 
     public previousChild: FazBsNavItem | null = null;
 
     constructor() {
         super();
 
-        [this.linkClasses, this.setLinkClasses] = createSignal<string>("");
+        bindReactive(this, "linkClasses", "");
 
         this.previousChild = null;
         this.classList.add("nav-item");
     }
 
     get contentChild() {
-        if (this.content() === undefined) {
+        if (this.content === undefined) {
             return this.navItemLink as ChildNode;
         }
         return this.navItemUl as ChildNode;
     }
 
     get isRoot() {
-        if (this.parent() !== undefined) {
-            if (this.parent() instanceof FazBsNav) {
+        if (this.parent !== undefined) {
+            if (this.parent instanceof FazBsNav) {
                 return true;
             }
         }
@@ -42,7 +42,7 @@ export class FazBsNavItem extends FazBsElement {
     }
 
     get isDropdown() {
-        return this.fazChildren().length > 0;
+        return this.fazChildren.length > 0;
     }
 
     get classNames() {
@@ -72,8 +72,8 @@ export class FazBsNavItem extends FazBsElement {
 
     get linkClassNames() {
         let classes = ["nav-link"];
-        const active = this.active();
-        const disabled = this.disabled();
+        const active = this.active;
+        const disabled = this.disabled;
 
         if (!this.isRoot) {
             classes.pop();
@@ -93,15 +93,15 @@ export class FazBsNavItem extends FazBsElement {
 
     get dropdownClassNames() {
         let classes = ["dropdown-menu"];
-        if (this.active() && this.isDropdown && !this.disabled()) {
+        if (this.active && this.isDropdown && !this.disabled) {
             classes.push("show");
         }
         return classes.join(" ");
     }
 
     get roleType() {
-        const parent = this.parent() as FazBsNav;
-        if (this.isRoot && parent.vertical() && parent.hasTabs) {
+        const parent = this.parent as FazBsNav;
+        if (this.isRoot && parent.vertical && parent.hasTabs) {
             return "tab";
         }
         if (this.isDropdown && this.isRoot) {
@@ -114,16 +114,16 @@ export class FazBsNavItem extends FazBsElement {
 
     get root(): FazBsNav | undefined {
         if (this.isRoot) {
-            return this.parent() as FazBsNav;
+            return this.parent as FazBsNav;
         }
-        if (!this.parent()) {
+        if (!this.parent) {
             return undefined;
         }
-        return (this.parent() as FazBsNavItem).root;
+        return (this.parent as FazBsNavItem).root;
     }
 
     get navItemChildren() {
-        return this.fazChildren().filter(child => {
+        return this.fazChildren.filter(child => {
             return child instanceof FazBsNavItem;
         })
     }
@@ -142,7 +142,7 @@ export class FazBsNavItem extends FazBsElement {
 
     addChild<T extends Node>(node: T): T {
         if (node instanceof FazBsNavItem) {
-            (this.navItemUl as Node).appendChild(node);
+            (this.navItemUl as unknown as Node).appendChild(node);
             return node;
         }
         (this.contentChild as Node)?.appendChild(node);
@@ -150,13 +150,13 @@ export class FazBsNavItem extends FazBsElement {
     }
 
     activate() {
-        this.parent()?.activeFazChildren.forEach(child => {
+        this.parent?.activeFazChildren.forEach(child => {
             if (child instanceof FazBsNavItem) {
                 (child as FazBsNavItem).deactivate();
                 this.previousChild = child;
             }
         })
-        this.setActive(true);
+        this.active = true;
         if (this.root) {
             this.root.current = this;
         }
@@ -164,17 +164,17 @@ export class FazBsNavItem extends FazBsElement {
             this.root?.tabChildren.forEach((tabChild) => {
                 const resolvedLink = this.resolveLink() as string;
                 if(tabChild.id === resolvedLink.replace("#", "")){
-                    tabChild.setActive(true);
+                    tabChild.active = true;
                     return;
                 }
-                tabChild.setActive(false);
+                tabChild.active = false;
             })
         }
     }
 
     deactivate() {
         this.previousChild = null;
-        this.setActive(false);
+        this.active = false;
         if (this.isDropdown) {
             this.activeFazChildren.forEach(activeChild => {
                 if (activeChild instanceof FazBsNavItem) {
@@ -189,7 +189,7 @@ export class FazBsNavItem extends FazBsElement {
         if (this.previousChild != null) {
             this.previousChild.activate();
         }
-        this.setDisabled(true);
+        this.disabled = true;
     }
 
     onClick(item: FazBsNavItem, event: Event) {
@@ -208,11 +208,11 @@ export class FazBsNavItem extends FazBsElement {
 
     renderItem() {
         this.navItemLink = <a class={this.linkClassNames}
-            id={`nav_item_link${this.id}`} role={this.roleType}
+            id={`nav_item_link${this.id}`} role={this.roleType as any}
             onclick={[this.onClick, this]} href={this.resolveLink()}
             aria-expanded={this.ariaExpandedValue ? "true" : undefined}
             data-bs-toggle={this.dataBsToggleValue ? "true" : undefined}
-        >{this.content()}</a>;
+        >{this.content}</a>;
         this.navItemLi = <li class={this.classNames}
             id={`nav_item_container${this.id}`} >
             {this.navItemLink}

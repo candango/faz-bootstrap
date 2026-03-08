@@ -6,7 +6,7 @@ import { render } from "solid-js/web";
 
 export class FazBsInputGroup extends FazBsElement {
 
-    private group: JSX.Element;
+    private group: JSX.Element | undefined;
 
     constructor() {
         super();
@@ -14,8 +14,8 @@ export class FazBsInputGroup extends FazBsElement {
 
     get classNames() {
         let classes = ["input-group"];
-        const active = this.active();
-        const disabled = this.disabled();
+        const active = this.active;
+        const disabled = this.disabled;
 
         if (active && !disabled) {
             classes.push("active");
@@ -23,17 +23,17 @@ export class FazBsInputGroup extends FazBsElement {
         if (disabled) {
             classes.push("disabled");
         }
-        if (this.kind()) {
-            classes.push("list-group-item-" + this.kind());
+        if (this.kind) {
+            classes.push("list-group-item-" + this.kind);
         }
-        if (this.extraClasses()) {
-            classes.push(this.extraClasses());
+        if (this.extraClasses) {
+            classes.push(this.extraClasses);
         }
         return classes.join(" ");
     }
 
     show() {
-        this.group = <div id={this.id} class={this.classNames}></div>;
+        this.group = <div id={this.id} class={this.classNames}>{this.content}</div>;
         render(() => this.group, this);
     }
 }

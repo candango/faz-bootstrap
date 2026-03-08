@@ -21,7 +21,7 @@ export declare class FazBsPagination extends FazBsElement {
     renderPageNumber(page: number): JSX.Element;
     renderPage(page: number): JSX.Element;
     renderPages(): JSX.Element[];
-    renderFirstPage(): JSX.Element;
+    renderFirstPage(): JSX.Element | undefined;
     renderLastPage(): JSX.Element;
     renderPreviousPage(): JSX.Element;
     renderPreviousBlock(): JSX.Element;

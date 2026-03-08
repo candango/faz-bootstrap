@@ -1,7 +1,7 @@
 import { FazBsElement } from "../bs-element";
-import { toBoolean } from "faz/src";
+import { toBoolean } from "faz";
+import { bindReactive } from "faz";
 import { JSX } from "solid-js/jsx-runtime";
-import { Accessor, createSignal, Setter } from "solid-js";
 import { render } from "solid-js/web";
 
 export type FazBsButtonAttrElementType = 
@@ -28,41 +28,37 @@ type FazBsButtonAttrValue = string | string[] | number | undefined;
 
 export class FazBsButton extends FazBsElement {
 
-    public toggleable: Accessor<boolean|undefined>;
-    public setToggleable: Setter<boolean|undefined>;
-    public value: Accessor<FazBsButtonAttrValue>;
-    public setValue: Setter<FazBsButtonAttrValue>;
-    public elementType: Accessor<FazBsButtonAttrElementType>;
-    public setElementType: Setter<FazBsButtonAttrElementType>;
-    public size: Accessor<FazBsButtonAttrSize>;
-    public setSize: Setter<FazBsButtonAttrSize>;
-    public type: Accessor<FazBsButtonAttrType>;
-    public setType: Setter<FazBsButtonAttrType>;
+    public toggleable: boolean | undefined = undefined;
+    public value: FazBsButtonAttrValue = undefined;
+    public elementType: FazBsButtonAttrElementType = "button";
+    public size: FazBsButtonAttrSize = undefined;
+    public type: FazBsButtonAttrType = undefined;
 
     constructor() {
         super();
-        [this.value, this.setValue] = createSignal<FazBsButtonAttrValue>(undefined);
-        [this.elementType, this.setElementType] = createSignal<FazBsButtonAttrElementType>("button");
-        [this.size, this.setSize] = createSignal<FazBsButtonAttrSize>(undefined);
-        [this.toggleable, this.setToggleable] = createSignal<boolean|undefined>(undefined);
-        [this.type, this.setType] = createSignal<FazBsButtonAttrType>(undefined);
+        bindReactive(this, "value", undefined);
+        bindReactive(this, "elementType", "button");
+        bindReactive(this, "size", undefined);
+        bindReactive(this, "toggleable", undefined);
+        bindReactive(this, "type", undefined);
+
         for (let attribute of this.attributes) {
             switch (attribute.name.toLowerCase()) {
                 case "elementtype":
                 case "element-type":
-                    this.setElementType(attribute.value.toLowerCase() as FazBsButtonAttrElementType);
+                    this.elementType = attribute.value.toLowerCase() as FazBsButtonAttrElementType;
                     break;
                 case "size":
-                    this.setSize(attribute.value.toLowerCase() as FazBsButtonAttrSize);
+                    this.size = attribute.value.toLowerCase() as FazBsButtonAttrSize;
                     break;
                 case "toggleable":
-                    this.setToggleable(toBoolean(attribute.value));
+                    this.toggleable = toBoolean(attribute.value);
                     break;
                 case "type":
-                    this.setType(attribute.value.toLowerCase() as FazBsButtonAttrType);
+                    this.type = attribute.value.toLowerCase() as FazBsButtonAttrType;
                     break;
                 case "value":
-                    this.setValue(attribute.value);
+                    this.value = attribute.value;
                     break;
             }
         }
@@ -70,8 +66,8 @@ export class FazBsButton extends FazBsElement {
 
     public getClasses(baseClass:string|undefined): string[] {
         let classes = super.getClasses(baseClass);
-        if (this.size()) {
-            let size = this.size() as string;
+        if (this.size) {
+            let size = this.size as string;
             if (size === "large") {
                 size = "lg";
             }
@@ -88,32 +84,29 @@ export class FazBsButton extends FazBsElement {
     }
 
     get controlledLink(): string|undefined {
-        if (this.disabled() || this.link()===undefined) {
+        if (this.disabled || this.link === undefined) {
             return undefined;
         }
-        return this.link();
+        return this.link;
     }
 
     get buttonElement(): JSX.Element {
-        let element: JSX.Element;
-        if (this.elementType() == "a" || this.elementType() == "link") {
+        let element: JSX.Element | undefined;
+        if (this.elementType == "a" || this.elementType == "link") {
             element = <a id={`faz-bs-button-${this.id}`} class={this.classNames}
-                 href={this.controlledLink} type={this.type()}
-                 role="button" aria-disabled={this.disabled()}>{this.content()}</a>;
-        }
-        if (this.elementType() == "input") {
+                 href={this.controlledLink} type={this.type}
+                 role="button" aria-disabled={this.disabled}>{this.content}</a>;
+        } else if (this.elementType == "input") {
             element = <input id={`faz-bs-button-${this.id}`} class={this.classNames}
-                type={this.type()} value={this.value()}
-                disabled={this.disabled()}>{this.content()}</input>;
-        }
-        if (this.elementType() == "button" || this.elementType == undefined) {
+                type={this.type} value={this.value as string}
+                disabled={this.disabled}>{this.content}</input>;
+        } else {
             element = <button id={`faz-bs-button-${this.id}`} class={this.classNames}
-                type={this.type()} disabled={this.disabled()}>{this.content()}</button>;
+                type={this.type} disabled={this.disabled}>{this.content}</button>;
         }
         (element as HTMLElement).addEventListener("click", () => {
-            if (this.toggleable()===true) {
-                let active = this.active();
-                this.setActive(!active);
+            if (this.toggleable === true) {
+                this.active = !this.active;
             }
         });
         return element;

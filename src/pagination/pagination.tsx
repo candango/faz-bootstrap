@@ -1,5 +1,5 @@
 import { FazBsElement } from "../bs-element";
-import { FazPaginator } from "faz/src/paginator";
+import { FazPaginator } from "faz";
 import { JSX } from "solid-js";
 import { render } from "solid-js/web";
 
@@ -30,16 +30,16 @@ export class FazBsPagination extends FazBsElement {
         for (let attribute of this.attributes) {
             switch (attribute.name.toLowerCase()) {
                 case "count":
-                    this.paginator.setCount(parseInt(attribute.value));
+                    this.paginator.count = parseInt(attribute.value);
                     break;
                 case "page":
-                    this.paginator.setCount(parseInt(attribute.value));
+                    this.paginator.page = parseInt(attribute.value);
                     break;
                 case "perblock":
-                    this.paginator.setCount(parseInt(attribute.value));
+                    this.paginator.perBlock = parseInt(attribute.value);
                     break;
                 case "perpage":
-                    this.paginator.setCount(parseInt(attribute.value));
+                    this.paginator.perPage = parseInt(attribute.value);
                     break;
             }
         }
@@ -47,11 +47,11 @@ export class FazBsPagination extends FazBsElement {
 
     get classNames(): string {
         let classes = ["pagination"];
-        if (this.extraClasses()) {
-            classes.push(this.extraClasses());
+        if (this.extraClasses) {
+            classes.push(this.extraClasses);
         }
-        if (this.kind()) {
-            classes.push(`alert-${this.kind()}`);
+        if (this.kind) {
+            classes.push(`alert-${this.kind}`);
         }
         return classes.join(" ");
     }
@@ -61,7 +61,7 @@ export class FazBsPagination extends FazBsElement {
         if (this.paginator.isCurrentPage(page)) {
             classes.push("active");
         }
-        if (this.disabled() && !this.paginator.isCurrentPage(page)) {
+        if (this.disabled && !this.paginator.isCurrentPage(page)) {
             classes.push("disabled");
         }
         return classes.join(" ");
@@ -69,7 +69,7 @@ export class FazBsPagination extends FazBsElement {
 
     get firstPreviousButtonClass() {
         let classes = ["page-item"]
-        if (this.paginator.isFirstPage || this.disabled()) {
+        if (this.paginator.isFirstPage || this.disabled) {
             classes.push("disabled")
         }
         return classes.join(" ")
@@ -77,7 +77,7 @@ export class FazBsPagination extends FazBsElement {
 
     get previousBlockButtonClass() {
         let classes = ["page-item"]
-        if (this.paginator.isFirstBlock || this.disabled()) {
+        if (this.paginator.isFirstBlock || this.disabled) {
             classes.push("disabled")
         }
         return classes.join(" ")
@@ -85,7 +85,7 @@ export class FazBsPagination extends FazBsElement {
 
     get lastNextButtonClass() {
         let classes = ["page-item"]
-        if (this.paginator.isLastPage || this.disabled()) {
+        if (this.paginator.isLastPage || this.disabled) {
             classes.push("disabled")
         }
         return classes.join(" ")
@@ -93,7 +93,7 @@ export class FazBsPagination extends FazBsElement {
 
     get nextBlockButtonClass() {
         let classes = ["page-item"]
-        if (this.paginator.isLastBlock || this.disabled()) {
+        if (this.paginator.isLastBlock || this.disabled) {
             classes.push("disabled")
         }
         return classes.join(" ")
@@ -101,7 +101,7 @@ export class FazBsPagination extends FazBsElement {
 
     goToPage(data: [FazBsPagination, number], _: Event) {
         const[pagination, page] = data;
-        pagination.paginator.setPage(page);
+        pagination.paginator.page = page;
     }
 
     goToFirstPage(pagination: FazBsPagination, event: Event) {
@@ -113,7 +113,7 @@ export class FazBsPagination extends FazBsElement {
     }
 
     goToPreviousPage(pagination: FazBsPagination, event: Event) {
-        pagination.goToPage([pagination, pagination.paginator.page() - 1], event);
+        pagination.goToPage([pagination, pagination.paginator.page - 1], event);
     }
 
     goToPreviousBlock(pagination: FazBsPagination, event: Event) {
@@ -121,7 +121,7 @@ export class FazBsPagination extends FazBsElement {
     }
 
     goToNextPage(pagination: FazBsPagination, event: Event) {
-        pagination.goToPage([pagination, pagination.paginator.page() + 1], event);
+        pagination.goToPage([pagination, pagination.paginator.page + 1], event);
     }
 
     goToNextBlock(pagination: FazBsPagination, event: Event) {
@@ -129,11 +129,10 @@ export class FazBsPagination extends FazBsElement {
     }
 
     paginatedLink(page: number): string {
-        const link = this.link();
+        const link = this.link;
         if (link !== undefined) {
             return link.replace("{page}", page.toString())
         } 
-        this.linkIsVoid
         return "#!"
     }
 
@@ -141,7 +140,7 @@ export class FazBsPagination extends FazBsElement {
         if (this.paginator.isCurrentPage(page)) {
             return <span class="page-link">{page}</span>;
         }
-        return <a onclick={[this.goToPage, [this, page]]} class="page-link" href={this.paginatedLink(1)}>{page}</a>;
+        return <a onclick={[this.goToPage, [this, page]]} class="page-link" href={this.paginatedLink(page)}>{page}</a>;
     }
 
     renderPage(page: number): JSX.Element {
@@ -149,13 +148,13 @@ export class FazBsPagination extends FazBsElement {
     }
 
     renderPages(): JSX.Element[] {
-        return this.paginator.blockPages.map((page) => {
+        return this.paginator.blockPages.map((page: number) => {
             return this.renderPage(page);
         });
         
     }
 
-    renderFirstPage(): JSX.Element {
+    renderFirstPage(): JSX.Element | undefined {
         if (this.paginator.hasMultiplePages && !this.paginator.isFirstPage) {
             return <li class={this.firstPreviousButtonClass}>
             <a class="page-link"
@@ -187,7 +186,7 @@ export class FazBsPagination extends FazBsElement {
 
     renderPreviousPage() {
         if (this.paginator.hasMultiplePages && !this.paginator.isFirstPage) {
-            let page = this.paginator.page() - 1;
+            let page = this.paginator.page - 1;
             return <li class={this.firstPreviousButtonClass}>
             <a class="page-link"
                 onclick={[this.goToPreviousPage, this]}
@@ -203,8 +202,8 @@ export class FazBsPagination extends FazBsElement {
     renderPreviousBlock() {
         if (!this.paginator.isFirstBlock) {
             let page = this.paginator.currentFirstPage - 1;
-            let label = this.labels.previousBlock.replace("{perBlock}", this.paginator.perBlock().toString());
-            let tooltipLabel = this.labels.previousBlockTooltip.replace("{perBlock}", this.paginator.perBlock().toString());
+            let label = this.labels.previousBlock.replace("{perBlock}", this.paginator.perBlock.toString());
+            let tooltipLabel = this.labels.previousBlockTooltip.replace("{perBlock}", this.paginator.perBlock.toString());
             return <li class={this.previousBlockButtonClass}>
             <a class="page-link"
                 onclick={[this.goToPreviousBlock, this]}
@@ -240,12 +239,12 @@ export class FazBsPagination extends FazBsElement {
                         <h5 class="card-title">Component State Information</h5>
                         <dl class="row">
                             <dt class="col-sm-3">Disabled:</dt>
-                            <dd class="col-sm-9">{this.disabled()? "disabled" : "enabled"}</dd>
+                            <dd class="col-sm-9">{this.disabled? "disabled" : "enabled"}</dd>
                         </dl>
                         <h5 class="card-title">Records Information</h5>
                         <dl class="row">
                             <dt class="col-sm-3">Records:</dt>
-                            <dd class="col-sm-9">{this.paginator.count()}</dd>
+                            <dd class="col-sm-9">{this.paginator.count}</dd>
                             <dt class="col-sm-3">Current First Record:</dt>
                             <dd class="col-sm-9">{this.paginator.firstRecord}</dd>
                             <dt class="col-sm-3">Current Last Record:</dt>
@@ -256,7 +255,7 @@ export class FazBsPagination extends FazBsElement {
                             <dt class="col-sm-3">Pages:</dt>
                             <dd class="col-sm-9">{this.paginator.pages}</dd>
                             <dt class="col-sm-3">Current Page:</dt>
-                            <dd class="col-sm-9">{this.paginator.page()}</dd>
+                            <dd class="col-sm-9">{this.paginator.page}</dd>
                             <dt class="col-sm-3">Current Page Computed:</dt>
                             <dd class="col-sm-9">{this.paginator.safePage}</dd>
                             <dt class="col-sm-3">Current First Page:</dt>
@@ -264,7 +263,7 @@ export class FazBsPagination extends FazBsElement {
                             <dt class="col-sm-3">Current Last Page:</dt>
                             <dd class="col-sm-9">{this.paginator.currentLastPage}</dd>
                             <dt class="col-sm-3">Records per page:</dt>
-                            <dd class="col-sm-9">{this.paginator.perPage()}</dd>
+                            <dd class="col-sm-9">{this.paginator.perPage}</dd>
                             <dt class="col-sm-3">Records in last page:</dt>
                             <dd class="col-sm-9">{this.paginator.recordsInLastPage}</dd>
                             <dt class="col-sm-3">Is first page:</dt>
@@ -283,7 +282,7 @@ export class FazBsPagination extends FazBsElement {
                             <dt class="col-sm-3">Current Block:</dt>
                             <dd class="col-sm-9">{this.paginator.block}</dd>
                             <dt class="col-sm-3">Pages per Block:</dt>
-                            <dd class="col-sm-9">{this.paginator.perBlock()}</dd>
+                            <dd class="col-sm-9">{this.paginator.perBlock}</dd>
                             <dt class="col-sm-3">Pages in last Block:</dt>
                             <dd class="col-sm-9">{this.paginator.pagesInLastBlock}</dd>
                             <dt class="col-sm-3">Is Last Block:</dt>
@@ -302,7 +301,7 @@ export class FazBsPagination extends FazBsElement {
     }
 
     renderNextPage() {
-        let page = this.paginator.page() + 1
+        let page = this.paginator.page + 1
         return <li class={this.lastNextButtonClass}>
             {this.paginator.isLastPage ?
                 <span class="page-link">{this.labels.next}</span> :
@@ -318,8 +317,8 @@ export class FazBsPagination extends FazBsElement {
 
     renderNextBlock() {
         let page = this.paginator.currentLastPage + 1
-        let label = this.labels.nextBlock.replace("{perBlock}", this.paginator.perBlock().toString());
-        let tooltipLabel = this.labels.nextBlockTooltip.replace("{perBlock}", this.paginator.perBlock().toString());
+        let label = this.labels.nextBlock.replace("{perBlock}", this.paginator.perBlock.toString());
+        let tooltipLabel = this.labels.nextBlockTooltip.replace("{perBlock}", this.paginator.perBlock.toString());
         return <li class={this.nextBlockButtonClass}>
             {this.paginator.isLastBlock ?
                 "" :
@@ -342,7 +341,7 @@ export class FazBsPagination extends FazBsElement {
             {this.paginator.hasMultiplePages ? this.renderNextPage() : ""}
             {this.paginator.hasMultipleBlocks ? this.renderNextBlock() : ""}
             {this.paginator.hasMultiplePages ? this.renderLastPage() : ""}
-            </ul></nav> {this.debug() ? this.renderDebug() : ""}</div>, this);
+            </ul></nav> {this.debug ? this.renderDebug() : ""}</div>, this);
     }
 }
 

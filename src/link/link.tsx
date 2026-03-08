@@ -5,7 +5,7 @@ import { render } from "solid-js/web";
 
 export class FazBsLink extends FazBsElement {
 
-    private linkElement: JSX.Element;
+    private linkElement: JSX.Element | undefined;
 
     constructor() {
         super();
@@ -13,8 +13,8 @@ export class FazBsLink extends FazBsElement {
 
     get classNames() {
         let classes = [];
-        const active = this.active();
-        const disabled = this.disabled();
+        const active = this.active;
+        const disabled = this.disabled;
 
         if (active && !disabled) {
             classes.push("active");
@@ -22,18 +22,17 @@ export class FazBsLink extends FazBsElement {
         if (disabled) {
             classes.push("disabled");
         }
-        if (this.kind()) {
-            classes.push("link-" + this.kind());
+        if (this.kind) {
+            classes.push("link-" + this.kind);
         }
-        if (this.extraClasses()) {
-            classes.push(this.extraClasses());
+        if (this.extraClasses) {
+            classes.push(this.extraClasses);
         }
-        console.log(classes)
         return classes.join(" ");
     }
 
     show() {
-        this.linkElement = <a id={`faz-bs-list-group-${this.id}`} href={this.controlledLink} class={this.classNames}>{this.content()}</a>;
+        this.linkElement = <a id={`faz-bs-list-group-${this.id}`} href={this.controlledLink} class={this.classNames}>{this.content}</a>;
         render(() => this.linkElement, this);
     }
 }

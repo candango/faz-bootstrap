@@ -36,7 +36,7 @@
         "bootstrap": "5.3.8",
         "bootstrap-icons": "1.13.1",
         "bootswatch": "5.3.8",
-        "faz": "0.4.3",
+        "faz": "0.5.1",
         "less": "4.5.1",
         "lodash": "4.17.21",
         "solid-js": "1.9.10"

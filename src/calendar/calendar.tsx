@@ -5,7 +5,7 @@ import { render } from "solid-js/web";
 
 export class FazBsCalendar extends FazBsElement {
 
-    private divElement: JSX.Element;
+    private divElement: JSX.Element | undefined;
 
     constructor() {
         super();
@@ -13,8 +13,8 @@ export class FazBsCalendar extends FazBsElement {
 
     get classNames() {
         let classes = [];
-        const active = this.active();
-        const disabled = this.disabled();
+        const active = this.active;
+        const disabled = this.disabled;
 
         if (active && !disabled) {
             classes.push("active");
@@ -22,13 +22,12 @@ export class FazBsCalendar extends FazBsElement {
         if (disabled) {
             classes.push("disabled");
         }
-        if (this.kind()) {
-            classes.push("link-" + this.kind());
+        if (this.kind) {
+            classes.push("link-" + this.kind);
         }
-        if (this.extraClasses()) {
-            classes.push(this.extraClasses());
+        if (this.extraClasses) {
+            classes.push(this.extraClasses);
         }
-        console.log(classes)
         return classes.join(" ");
     }
 
@@ -37,7 +36,7 @@ export class FazBsCalendar extends FazBsElement {
     }
 
     show() {
-        this.divElement = <div id={`faz-bs-calendar-${this.id}`} class={this.classNames}></div>;
+        this.divElement = <div id={`faz-bs-calendar-${this.id}`} class={this.classNames}>{this.content}</div>;
         render(() => this.divElement, this);
     }
 }

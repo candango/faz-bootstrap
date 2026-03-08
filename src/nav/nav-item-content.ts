@@ -1,9 +1,9 @@
-import { FazElement } from "faz/src";
+import { FazElement } from "faz";
 
 
 export class FazBsNavItemContent extends FazElement {
     show() {
-        const contentSpam = document.createElement("spam");
-        this.appendChild(contentSpam);
+        const contentSpan = document.createElement("span");
+        this.appendChild(contentSpan);
     }
 }

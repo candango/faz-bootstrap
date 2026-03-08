@@ -1,11 +1,10 @@
 import { FazBsElement } from "../bs-element"
-import { FazBsCollapse } from "../collapse/collapse";
 import { FazBsNavItem } from "./nav-item";
 import { FazBsNavItemContent } from "./nav-item-content";
 import { FazBsNavTab } from "./nav-tab";
 import { FazBsNavbar } from "../navbar/navbar";
-import { toBoolean } from "faz/src";
-import { Accessor, createSignal, Setter } from "solid-js";
+import { toBoolean } from "faz";
+import { bindReactive } from "faz";
 import { JSX } from "solid-js/jsx-runtime";
 import { render } from "solid-js/web";
 import { FazBsNavbarCollapse } from "../navbar/navbar-collapse";
@@ -27,20 +26,15 @@ type AriaAttributesRole =  "alert" | "alertdialog" | "application" | "article"
  
 export class FazBsNav extends FazBsElement {
 
-    public fill: Accessor<boolean>;
-    public setFill: Setter<boolean>;
-    public justify: Accessor<string>;
-    public setJustify: Setter<string>;
-    public pills: Accessor<boolean>;
-    public setPills: Setter<boolean>;
-    public undeline: Accessor<boolean>;
-    public setUndeline: Setter<boolean>;
-    public vertical: Accessor<boolean>;
-    public setVertical: Setter<boolean>;
+    public fill: boolean = false;
+    public justify: string = "";
+    public pills: boolean = false;
+    public underline: boolean = false;
+    public vertical: boolean = false;
    
-    private outerContainer: JSX.Element;
-    private tabList: JSX.Element;
-    private tabContainer: JSX.Element;
+    private outerContainer: JSX.Element | undefined;
+    private tabList: JSX.Element | undefined;
+    private tabContainer: JSX.Element | undefined;
 
     public current: FazBsNavItem | undefined;
 
@@ -49,28 +43,28 @@ export class FazBsNav extends FazBsElement {
     constructor() {
         super();
 
-        [this.fill, this.setFill] = createSignal<boolean>(false);
-        [this.justify, this.setJustify] = createSignal<string>("");
-        [this.pills, this.setPills] = createSignal<boolean>(false);
-        [this.undeline, this.setUndeline] = createSignal<boolean>(false);
-        [this.vertical, this.setVertical] = createSignal<boolean>(false);
+        bindReactive(this, "fill", false);
+        bindReactive(this, "justify", "");
+        bindReactive(this, "pills", false);
+        bindReactive(this, "underline", false);
+        bindReactive(this, "vertical", false);
 
         for (let attribute of this.attributes) {
-            switch (attribute.name) {
+            switch (attribute.name.toLowerCase()) {
                 case "fill":
-                    this.setFill(toBoolean(attribute.value));
+                    this.fill = toBoolean(attribute.value);
                     break;
                 case "justify":
-                    this.setJustify(attribute.value);
+                    this.justify = attribute.value;
                     break;
                 case "pills":
-                    this.setPills(toBoolean(attribute.value));
+                    this.pills = toBoolean(attribute.value);
                     break;
                 case "underline":
-                    this.setUndeline(toBoolean(attribute.value));
+                    this.underline = toBoolean(attribute.value);
                     break;
                 case "vertical":
-                    this.setVertical(toBoolean(attribute.value));
+                    this.vertical = toBoolean(attribute.value);
                     break;
             }
         }
@@ -80,7 +74,6 @@ export class FazBsNav extends FazBsElement {
         let active: FazBsNavItem | null = null;
         this.navItemChildrenActive.forEach(child => {
             active = child as FazBsNavItem;
-            return active;
         })
         return active;
     }
@@ -103,39 +96,39 @@ export class FazBsNav extends FazBsElement {
     get classNames() {
         const baseClass = this.insideNavbar || this.insideNavbarCollapse ? "navbar-nav" : "nav";
         const classes = [ baseClass ];
-        if (this.disabled()) {
+        if (this.disabled) {
             classes.push("disabled");
         }
-        if (this.extraClasses()) {
-            classes.push(this.extraClasses());
+        if (this.extraClasses) {
+            classes.push(this.extraClasses);
         }
-        if (this.pills()) {
+        if (this.pills) {
             classes.push("nav-pills");
         }
-        if (this.undeline()) {
+        if (this.underline) {
             classes.push("nav-underline");
         }
-        if (this.fill()) {
+        if (this.fill) {
             classes.push("nav-fill");
         }
-        const justify = this.justify();
+        const justify = this.justify;
         if (justify === "center") {
             classes.push("justify-content-center");
         }
         if (justify === "right") {
             classes.push("justify-content-end");
         }
-        if (this.hasTabs && !this.vertical()) {
+        if (this.hasTabs && !this.vertical) {
             classes.push("nav-tabs");
         }
-        if (this.vertical()) {
+        if (this.vertical) {
             classes.push("flex-column");
         }  
         return classes.join(" ");
     }
 
     get insideNavbarCollapse(): boolean {
-        const parent =  this.parent();
+        const parent =  this.parent;
         if (!parent) {
             return false;
         }
@@ -146,7 +139,7 @@ export class FazBsNav extends FazBsElement {
     }
 
     get insideNavbar(): boolean {
-        const parent =  this.parent();
+        const parent =  this.parent;
         if (!parent) {
             return false;
         }
@@ -161,15 +154,15 @@ export class FazBsNav extends FazBsElement {
     }
 
     get navItemChildren() {
-        return this.fazChildren().filter(child => {
+        return this.fazChildren.filter(child => {
             return child instanceof FazBsNavItem;
         })
     }
 
     get navItemChildrenActive() {
-        const children = this.fazChildren();
+        const children = this.fazChildren;
         return children.filter(child => {
-            return child instanceof FazBsNavItem && child.active();
+            return child instanceof FazBsNavItem && child.active;
         });
     }
 
@@ -194,7 +187,7 @@ export class FazBsNav extends FazBsElement {
             classes.push("collapse");
             classes.push("navbar-collapse");
         }
-        if (this.hasTabs && this.vertical()) {
+        if (this.hasTabs && this.vertical) {
             classes.push("d-flex");
             classes.push("align-items-start");
         }
@@ -210,13 +203,13 @@ export class FazBsNav extends FazBsElement {
     }
 
     get tabChildren() {
-        return this.fazChildren().filter(child => {
+        return this.fazChildren.filter(child => {
             return child instanceof FazBsNavTab;
         })
     }
 
     addChild<T extends Node>(node: T): T {
-        if (this.hasTabs && this.vertical()) {
+        if (this.hasTabs && this.vertical) {
             if (node instanceof FazBsNavTab) {
                 (this.tabContainer as HTMLElement).appendChild(node);
                 return node;
@@ -276,9 +269,9 @@ export class FazBsNav extends FazBsElement {
 
     placeBackChildren(children:Node[]) {
         super.placeBackChildren(children);
-        if (this.loading() && this.hasTabs) {
+        if (this.loading && this.hasTabs) {
             if (this.activeNavItem === null) {
-                (this.navItemChildren[0] as FazBsNavItem).setActive(true);
+                (this.navItemChildren[0] as FazBsNavItem).active = true;
             }
             (this.navItemChildrenActive[0] as FazBsNavItem).activate();
         }

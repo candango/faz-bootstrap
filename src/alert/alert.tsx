@@ -16,7 +16,7 @@ export class FazBsAlert extends FazBsElement {
     }
 
     show() {
-        this.alertItem = <div role="alert" id={`faz-bs-alert-${this.id}`} class={this.classNames}>{this.content()}</div>;
+        this.alertItem = <div role="alert" id={`faz-bs-alert-${this.id}`} class={this.classNames}>{this.content}</div>;
         render(() => this.alertItem, this);
     }
 }

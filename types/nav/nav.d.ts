@@ -1,20 +1,14 @@
 import { FazBsElement } from "../bs-element";
 import { FazBsNavItem } from "./nav-item";
 import { FazBsNavTab } from "./nav-tab";
-import { Accessor, Setter } from "solid-js";
 import { JSX } from "solid-js/jsx-runtime";
 type AriaAttributesRole = "alert" | "alertdialog" | "application" | "article" | "banner" | "button" | "cell" | "checkbox" | "columnheader" | "combobox" | "complementary" | "contentinfo" | "definition" | "dialog" | "directory" | "document" | "feed" | "figure" | "form" | "grid" | "gridcell" | "group" | "heading" | "img" | "link" | "list" | "listbox" | "listitem" | "log" | "main" | "marquee" | "math" | "menu" | "menubar" | "menuitem" | "menuitemcheckbox" | "menuitemradio" | "meter" | "navigation" | "none" | "note" | "option" | "presentation" | "progressbar" | "radio" | "radiogroup" | "region" | "row" | "rowgroup" | "rowheader" | "scrollbar" | "search" | "searchbox" | "separator" | "slider" | "spinbutton" | "status" | "switch" | "tab" | "table" | "tablist" | "tabpanel" | "term" | "textbox" | "timer" | "toolbar" | "tooltip" | "tree" | "treegrid" | "treeitem" | undefined;
 export declare class FazBsNav extends FazBsElement {
-    fill: Accessor<boolean>;
-    setFill: Setter<boolean>;
-    justify: Accessor<string>;
-    setJustify: Setter<string>;
-    pills: Accessor<boolean>;
-    setPills: Setter<boolean>;
-    undeline: Accessor<boolean>;
-    setUndeline: Setter<boolean>;
-    vertical: Accessor<boolean>;
-    setVertical: Setter<boolean>;
+    fill: boolean;
+    justify: string;
+    pills: boolean;
+    underline: boolean;
+    vertical: boolean;
     private outerContainer;
     private tabList;
     private tabContainer;
@@ -30,7 +24,7 @@ export declare class FazBsNav extends FazBsElement {
     get insideNavbar(): boolean;
     get hasTabs(): boolean;
     get navItemChildren(): FazBsNavItem[];
-    get navItemChildrenActive(): import("faz/src").FazElement[];
+    get navItemChildrenActive(): import("faz").FazElement[];
     get onEdge(): boolean;
     get outerContainerId(): string;
     get outerContainerClassNames(): string;

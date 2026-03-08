@@ -1,8 +1,6 @@
 import { FazBsElement } from "../bs-element";
-import { Accessor, Setter } from "solid-js";
 export declare class FazBsNavTab extends FazBsElement {
-    fade: Accessor<boolean>;
-    setFade: Setter<boolean>;
+    fade: boolean;
     private navTabContainer;
     constructor();
     get ariaLabelledby(): string;

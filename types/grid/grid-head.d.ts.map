@@ -1,1 +1,1 @@
-{"version":3,"file":"grid-head.d.ts","sourceRoot":"","sources":["../../src/grid/grid-head.tsx"],"names":[],"mappings":"AAAA,OAAO,EAAE,YAAY,EAAE,MAAM,eAAe,CAAC;AAK7C,qBAAa,aAAc,SAAQ,YAAY;IAE3C,OAAO,CAAC,QAAQ,CAAc;;IAa9B,IAAI,UAAU,WAMb;IAED,IAAI;CAIP"}
+{"version":3,"file":"grid-head.d.ts","sourceRoot":"","sources":["../../src/grid/grid-head.tsx"],"names":[],"mappings":"AAAA,OAAO,EAAE,YAAY,EAAE,MAAM,eAAe,CAAC;AAK7C,qBAAa,aAAc,SAAQ,YAAY;IAE3C,OAAO,CAAC,QAAQ,CAA0B;;IAc1C,IAAI,UAAU,WAMb;IAED,IAAI;CAIP"}

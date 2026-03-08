@@ -6,18 +6,18 @@ import { render } from "solid-js/web";
 
 export class FazBsBreadcrumb extends FazBsElement {
 
-    private itemOl: JSX.Element;
+    private itemOl: JSX.Element | undefined;
 
     get baseClass(): string {
         return "breadcrumb";
     }
 
     get contentChild() {
-        return this.itemOl as ChildNode;
+        return this.itemOl as unknown as ChildNode;
     }
 
     show() {
-        this.itemOl = <ol class={this.classNames}></ol>;
+        this.itemOl = <ol class={this.classNames}>{this.content}</ol>;
         render(() => <nav id={`faz-bs-breadcrumb--${this.id}`}
                aria-label="breadcrumb">
                {this.itemOl} 

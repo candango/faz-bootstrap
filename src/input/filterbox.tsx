@@ -1,5 +1,6 @@
 import { FazBsElement } from "../bs-element";
-import { Accessor, createEffect, createSignal, Setter } from "solid-js";
+import { bindReactive } from "faz";
+import { createEffect } from "solid-js";
 import { JSX } from "solid-js/jsx-runtime";
 import { render } from "solid-js/web";
 
@@ -15,29 +16,22 @@ export type InitCallback = (filterbox: FazBsInputFilterbox) => void;
 
 export class FazBsInputFilterbox extends FazBsElement {
 
-    public autocomplete: Accessor<string>;
-    public setAutocomplete: Setter<string>;
-    public items: Accessor<FilterableItem[]>;
-    public setItems: Setter<FilterableItem[]>;
-    public label: Accessor<string>;
-    public setLabel: Setter<string>;
-    public value: Accessor<string>;
-    public setValue: Setter<string>;
-    public selectedName: Accessor<string>;
-    public setSelectedName: Setter<string>;
+    public autocomplete: string = "off";
+    public items: FilterableItem[] = [];
+    public label: string = "Search for..";
+    public value: string = "";
+    public selectedName: string = "";
 
-    public displayFilter: Accessor<boolean>;
-    public setDisplayFilter: Setter<boolean>;
-    public filtering: Accessor<boolean>;
-    public setFiltering: Setter<boolean>;
+    public displayFilter: boolean = false;
+    public filtering: boolean = false;
 
 
     public filterCallback: FilterCallback | string | undefined = undefined;
     public initCallback: InitCallback | string | undefined = undefined;
 
-    private container: JSX.Element;
-    private inputName: JSX.Element;
-    private inputValue: JSX.Element;
+    private container: JSX.Element | undefined;
+    private inputName: JSX.Element | undefined;
+    private inputValue: JSX.Element | undefined;
 
     private prefixId: string = "faz-bs-input-filterbox";
     private buffer: string = "";
@@ -50,19 +44,19 @@ export class FazBsInputFilterbox extends FazBsElement {
     constructor() {
         super();
 
-        [this.autocomplete, this.setAutocomplete] = createSignal<string>("off");
-        [this.items, this.setItems] = createSignal<FilterableItem[]>([]);
-        [this.label, this.setLabel] = createSignal<string>("Search for..");
-        [this.value, this.setValue] = createSignal<string>("");
-        [this.selectedName, this.setSelectedName] = createSignal<string>("");
+        bindReactive(this, "autocomplete", "off");
+        bindReactive(this, "items", []);
+        bindReactive(this, "label", "Search for..");
+        bindReactive(this, "value", "");
+        bindReactive(this, "selectedName", "");
  
-        [this.displayFilter, this.setDisplayFilter] = createSignal<boolean>(false);
-        [this.filtering, this.setFiltering] = createSignal<boolean>(false);
+        bindReactive(this, "displayFilter", false);
+        bindReactive(this, "filtering", false);
 
         for (let attribute of this.attributes) {
             switch (attribute.name.toLowerCase()) {
                 case "autocomplete":
-                    this.setAutocomplete(attribute.value.toLowerCase())
+                    this.autocomplete = attribute.value.toLowerCase();
                     break
                 case "filtercallback":
                     this.filterCallback = attribute.value;
@@ -71,10 +65,10 @@ export class FazBsInputFilterbox extends FazBsElement {
                     this.initCallback = attribute.value;
                     break
                 case "value":
-                    this.setValue(attribute.value);
+                    this.value = attribute.value;
                     break;
                 case "label":
-                    this.setLabel(attribute.value);
+                    this.label = attribute.value;
                     break;
             }
         }
@@ -108,17 +102,17 @@ export class FazBsInputFilterbox extends FazBsElement {
 
     get classNames() {
         let classes = ["badge"];
-        if (this.extraClasses()) {
-            classes.push(this.extraClasses());
+        if (this.extraClasses) {
+            classes.push(this.extraClasses);
         }
-        if (this.kind()) {
-            classes.push(`text-bg-${this.kind()}`);
+        if (this.kind) {
+            classes.push(`text-bg-${this.kind}`);
         }
         return classes.join(" ");
     }
 
     defaultFilterCallback(query: string): FilterableItem[] {
-        return this.items().filter(
+        return this.items.filter(
             item => item.name.toLowerCase().indexOf(query.toLowerCase()) !== -1
         );
     }
@@ -155,8 +149,8 @@ export class FazBsInputFilterbox extends FazBsElement {
     doFilter(_: Event): void {
         const inputName = (this.inputName as HTMLInputElement);
         this.verifySelectedValue()
-        this.setFiltering(true);
-        this.setDisplayFilter(false);
+        this.filtering = true;
+        this.displayFilter = false;
         this.overListGroup = true;
         this.inputHasFocus = true;
         this.buffer = inputName.value;
@@ -167,12 +161,12 @@ export class FazBsInputFilterbox extends FazBsElement {
             );
             return;
         }
-        this.setFiltering(false);
+        this.filtering = false;
     }
 
     showFilter() {
-        this.setFiltering(false);
-        this.setDisplayFilter(true);
+        this.filtering = false;
+        this.displayFilter = true;
     }
 
     clearFilter() {
@@ -193,14 +187,14 @@ export class FazBsInputFilterbox extends FazBsElement {
     verifySelectedValue() {
         const inputName = (this.inputName as HTMLInputElement);
         const inputValue = (this.inputValue as HTMLInputElement);
-        if(this.selectedName() !== "" && inputName.value !== this.selectedName()) {
-            this.setSelectedName(inputName.value);
-            this.setValue(inputValue.value);
+        if(this.selectedName !== "" && inputName.value !== this.selectedName) {
+            this.selectedName = inputName.value;
+            this.value = inputValue.value;
         }
     }
 
     hasFilterableItems() {
-        return this.items().length > 0;
+        return this.items.length > 0;
     }
 
     beOverListGroup() {
@@ -212,8 +206,8 @@ export class FazBsInputFilterbox extends FazBsElement {
         this.overListGroup = false;
         this.beOverTimeoutId = setTimeout(() => {
             if(!this.overListGroup && !this.inputHasFocus) {
-                this.setFiltering(false);
-                this.setDisplayFilter(false);
+                this.filtering = false;
+                this.displayFilter = false;
             }
         }, 150);
     }
@@ -230,9 +224,9 @@ export class FazBsInputFilterbox extends FazBsElement {
 
     selectOption(e: Event) {
         let option = e.target as HTMLElement;
-        this.setSelectedName(option.getAttribute("item-name") as string);
-        this.setValue(option.getAttribute("item-value") as string);
-        (this.inputName as HTMLInputElement).value = this.selectedName();
+        this.selectedName = option.getAttribute("item-name") as string;
+        this.value = option.getAttribute("item-value") as string;
+        (this.inputName as HTMLInputElement).value = this.selectedName;
         this.overListGroup = false;
         this.clearFilter();
     }
@@ -282,8 +276,8 @@ export class FazBsInputFilterbox extends FazBsElement {
         });
     }
 
-    renderFilterContainer(): JSX.Element {
-        if (this.displayFilter()) {
+    renderFilterContainer(): JSX.Element | undefined {
+        if (this.displayFilter) {
             return <div id={this.listContainer}
                         class="filterbox-list-container"
                         onMouseOver={this.beOverListGroup}
@@ -294,8 +288,8 @@ export class FazBsInputFilterbox extends FazBsElement {
         }
     }
 
-    renderFilteringMessage(): JSX.Element {
-        if (this.filtering()) {
+    renderFilteringMessage(): JSX.Element | undefined {
+        if (this.filtering) {
             return <div style={{"margin-top": "5px", width: "100%"}}>
                 <div class="list-group">
                     <a href="#"
@@ -312,13 +306,13 @@ export class FazBsInputFilterbox extends FazBsElement {
             onInput={this.doFilter.bind(this)}
             onFocus={this.doFilter.bind(this)}
             onBlur={this.clearFilter}
-            placeholder={this.label()}
-            autocomplete={this.autocomplete()} />;
+            placeholder={this.label}
+            autocomplete={this.autocomplete} />;
         return this.inputName;
     }
 
     renderInputValue(): JSX.Element {
-        this.inputValue = <input id={this.inputValueId} type="hidden" value={this.value()} />;
+        this.inputValue = <input id={this.inputValueId} type="hidden" value={this.value} />;
         return this.inputValue;
     }
 
@@ -334,10 +328,10 @@ export class FazBsInputFilterbox extends FazBsElement {
 
     afterShow() {
         createEffect(() => {
-            const value = this.value();
+            const value = this.value;
             const inputName = this.inputName as HTMLInputElement; 
             if (value != inputName.value) {
-                inputName.value = this.value(); 
+                inputName.value = this.value; 
             }
         });
         super.afterShow();

@@ -5,7 +5,7 @@ import { render } from "solid-js/web";
 
 export class FazBsCard extends FazBsElement {
 
-    private card: JSX.Element;
+    private card: JSX.Element | undefined;
 
     constructor() {
         super();
@@ -20,7 +20,7 @@ export class FazBsCard extends FazBsElement {
     }
 
     show() {
-        this.card = <div id={`faz-bs-card-${this.id}`} class={this.classNames}>{this.content()}</div>;
+        this.card = <div id={`faz-bs-card-${this.id}`} class={this.classNames}>{this.content}</div>;
         render(() => this.card, this);
     }
 }

@@ -1,5 +1,4 @@
 import { FazBsElement } from "../bs-element";
-import { Accessor, Setter } from "solid-js";
 import { JSX } from "solid-js/jsx-runtime";
 export declare class FilterableItem {
     name: string;
@@ -9,20 +8,13 @@ export declare class FilterableItem {
 export type FilterCallback = (query: string) => FilterableItem[];
 export type InitCallback = (filterbox: FazBsInputFilterbox) => void;
 export declare class FazBsInputFilterbox extends FazBsElement {
-    autocomplete: Accessor<string>;
-    setAutocomplete: Setter<string>;
-    items: Accessor<FilterableItem[]>;
-    setItems: Setter<FilterableItem[]>;
-    label: Accessor<string>;
-    setLabel: Setter<string>;
-    value: Accessor<string>;
-    setValue: Setter<string>;
-    selectedName: Accessor<string>;
-    setSelectedName: Setter<string>;
-    displayFilter: Accessor<boolean>;
-    setDisplayFilter: Setter<boolean>;
-    filtering: Accessor<boolean>;
-    setFiltering: Setter<boolean>;
+    autocomplete: string;
+    items: FilterableItem[];
+    label: string;
+    value: string;
+    selectedName: string;
+    displayFilter: boolean;
+    filtering: boolean;
     filterCallback: FilterCallback | string | undefined;
     initCallback: InitCallback | string | undefined;
     private container;
@@ -61,8 +53,8 @@ export declare class FazBsInputFilterbox extends FazBsElement {
     get results(): JSX.Element;
     renderUncategorizedResults(filteredItems: FilterableItem[]): JSX.Element[];
     renderCategorizedResults(filteredItems: FilterableItem[]): JSX.Element[];
-    renderFilterContainer(): JSX.Element;
-    renderFilteringMessage(): JSX.Element;
+    renderFilterContainer(): JSX.Element | undefined;
+    renderFilteringMessage(): JSX.Element | undefined;
     renderInputName(): JSX.Element;
     renderInputValue(): JSX.Element;
     show(): void;

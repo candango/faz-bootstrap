@@ -1,4 +1,4 @@
-import { FazBsElement} from "../bs-element"
+import { FazBsElement } from "../bs-element"
 
 export class FazBsCollapse extends FazBsElement {
 
@@ -11,7 +11,7 @@ export class FazBsCollapse extends FazBsElement {
 
     get classNames() {
         let classes = ["collapse"]
-        if (this.parent()?.tagName.toLowerCase().startsWith("faz-bs-navbar")) {
+        if (this.parent?.tagName.toLowerCase().startsWith("faz-bs-navbar")) {
             classes.push("navbar-collapse")
         }
         return classes.join(" ")

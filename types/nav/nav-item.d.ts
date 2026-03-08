@@ -1,9 +1,8 @@
 import { FazBsNav } from "./nav";
 import { FazBsElement } from "../bs-element";
-import { Accessor, JSX, Setter } from "solid-js";
+import { JSX } from "solid-js/jsx-runtime";
 export declare class FazBsNavItem extends FazBsElement {
-    linkClasses: Accessor<string>;
-    setLinkClasses: Setter<string>;
+    linkClasses: string;
     private navItemLi;
     private navItemLink;
     private navItemUl;
@@ -19,7 +18,7 @@ export declare class FazBsNavItem extends FazBsElement {
     get roleType(): "button" | "tab" | undefined;
     get root(): FazBsNav | undefined;
     get navItemChildren(): FazBsNavItem[];
-    get ariaExpandedValue(): Accessor<boolean> | undefined;
+    get ariaExpandedValue(): boolean | undefined;
     get dataBsToggleValue(): "dropdown" | undefined;
     addChild<T extends Node>(node: T): T;
     activate(): void;

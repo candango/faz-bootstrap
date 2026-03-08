@@ -6,9 +6,9 @@ import { render } from "solid-js/web";
 
 export class FazBsBreadcrumbItem extends FazBsElement {
 
-    private itemLi: JSX.Element;
-    private itemA: JSX.Element;
-    private itemSpam: JSX.Element;
+    private itemLi: JSX.Element | undefined;
+    private itemA: JSX.Element | undefined;
+    private itemSpan: JSX.Element | undefined;
 
     get aClassNames() {
         let classes = [];
@@ -18,7 +18,7 @@ export class FazBsBreadcrumbItem extends FazBsElement {
         return classes.join(" ");
     }
 
-    get spamClassNames() {
+    get spanClassNames() {
         let classes = [];
         if (!this.linkIsVoid) {
             classes.push("d-none");
@@ -32,17 +32,17 @@ export class FazBsBreadcrumbItem extends FazBsElement {
 
     get contentChild() {
         if (this.linkIsVoid) {
-            return this.itemSpam as ChildNode;
+            return this.itemSpan as unknown as ChildNode;
         } 
-        return this.itemA as ChildNode;
+        return this.itemA as unknown as ChildNode;
     }
 
     get isEdge(): boolean {
-        const parent = this.parent();
+        const parent = this.parent;
         if (parent === undefined) {
             return false;
         }
-        return parent?.fazChildren()[parent?.fazChildren()?.length-1] === this;
+        return parent?.fazChildren[parent?.fazChildren?.length-1] === this;
     }
 
     private ariaCurrentValue(): "page"|undefined {
@@ -54,37 +54,37 @@ export class FazBsBreadcrumbItem extends FazBsElement {
 
     afterShow(): void {
         createEffect((orig) => {
-            if (orig != this.link()){
-                let itemOrig = this.itemSpam as ChildNode;
-                let itemTarget = this.itemA as ChildNode;
+            if (orig != this.link){
+                let itemOrig = this.itemSpan as unknown as ChildNode;
+                let itemTarget = this.itemA as unknown as ChildNode;
                 if (this.linkIsVoid) {
-                    itemOrig = this.itemA as ChildNode;
-                    itemTarget = this.itemSpam as ChildNode;
+                    itemOrig = this.itemA as unknown as ChildNode;
+                    itemTarget = this.itemSpan as unknown as ChildNode;
                 }
-                if (itemOrig.firstChild != null) {
+                if (itemOrig?.firstChild != null) {
                     while(itemOrig.firstChild) {
                         itemTarget.appendChild(itemOrig.firstChild);
                     }
                 }
             }
-        }, this.link());
+            return this.link;
+        }, this.link);
     }
 
     disconnect() {
-        (this.itemLi as Node).parentNode?.removeChild(this.itemLi as Node);
+        (this.itemLi as unknown as Node)?.parentNode?.removeChild(this.itemLi as unknown as Node);
     }
 
     show() {
-        this.itemA = <a class={this.aClassNames} href={this.link()}></a>;
-        this.itemSpam = <span class={this.spamClassNames}></span>;
+        this.itemA = <a class={this.aClassNames} href={this.link}>{this.content}</a>;
+        this.itemSpan = <span class={this.spanClassNames}>{this.content}</span>;
         this.itemLi = <li 
                id={`faz-bs-breadcrumb-item-${this.id}`}
                class={this.classNames}
-               onclick={() => {console.log(this.previousSibling)}}
                aria-current={this.ariaCurrentValue()}
                aria-label="breadcrumb">
-               {this.itemA}{this.itemSpam}
+               {this.itemA}{this.itemSpan}
                </li>;
-        render(() => this.itemLi, this.parent()?.contentChild as Node);
+        render(() => this.itemLi, this.parent?.contentChild as unknown as Node);
     }
 }

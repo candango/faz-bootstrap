@@ -1,10 +1,10 @@
-import { FazElement } from "faz/src";
+import { FazElement } from "faz";
 import { JSX } from "solid-js/jsx-runtime";
 import { render } from "solid-js/web";
  
 export class FazBsNavbarBrand extends FazElement {
 
-    private brand: JSX.Element;
+    private brand: JSX.Element | undefined;
 
     get classNames() {
         let classes = ["navbar-brand"];
@@ -16,9 +16,10 @@ export class FazBsNavbarBrand extends FazElement {
     }
 
     renderBrand(): JSX.Element {
-        this.brand = <a id={`faz-bs-navbar-brand-${this.id}`} class={this.className}></a>;
         if (this.linkIsVoid) {
-            this.brand = <span id={`faz-bs-navbar-brand-${this.id}`} class={this.className}></span>;
+            this.brand = <span id={`faz-bs-navbar-brand-${this.id}`} class={this.classNames}>{this.content}</span>;
+        } else {
+            this.brand = <a id={`faz-bs-navbar-brand-${this.id}`} href={this.link} class={this.classNames}>{this.content}</a>;
         }
         return this.brand;
     }

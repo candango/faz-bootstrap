@@ -1,15 +1,10 @@
 import { FazBsAttrKind } from "./bs-attributes";
-import { FazElement } from "faz/src";
-import { Accessor, Setter } from "solid-js";
+import { FazElement } from "faz";
 export declare class FazBsElement extends FazElement {
-    outline: Accessor<boolean>;
-    setOutline: Setter<boolean>;
-    kind: Accessor<FazBsAttrKind>;
-    setKind: Setter<FazBsAttrKind>;
-    target: Accessor<string | undefined>;
-    setTarget: Setter<string | undefined>;
-    theme: Accessor<string | undefined>;
-    setTheme: Setter<string | undefined>;
+    outline: boolean;
+    kind: FazBsAttrKind;
+    target: string | undefined;
+    theme: string | undefined;
     constructor();
     getClasses(baseClass: string | undefined): string[];
     get baseClass(): string;

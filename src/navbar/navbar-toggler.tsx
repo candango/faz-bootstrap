@@ -12,7 +12,7 @@ export class FazBsNavbarToggler extends FazBsElement {
         render(() => <button class={this.classNames}
             id={`faz-bs-navbar-toggler-${this.id}`}
             data-bs-toggle="collapse"
-            data-bs-target={`#faz-bs-navbar-collapse-${this.target()}`}>    
+            data-bs-target={`#faz-bs-navbar-collapse-${this.target}`}>    
         </button> , this);
     }
 }

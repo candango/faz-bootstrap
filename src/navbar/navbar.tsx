@@ -8,27 +8,26 @@ import { render } from "solid-js/web";
  
 export class FazBsNavbar extends FazBsElement {
 
-    // private _class: string = ""
-    private container: JSX.Element;
-    private nav: JSX.Element;
+    private container: JSX.Element | undefined;
+    private nav: JSX.Element | undefined;
 
     get classNames() {
         const classes = ["navbar"];
-        if (this.extraClasses()) {
-            classes.push(this.extraClasses());
+        if (this.extraClasses) {
+            classes.push(this.extraClasses);
         }
-        if (this.kind()) {
-            classes.push(this.kind() as string);
+        if (this.kind) {
+            classes.push(this.kind as string);
         }
         return classes.join(" ");
     }
 
     get contentChild() {
-        return this.container as ChildNode;
+        return this.container as unknown as ChildNode;
     }
 
     renderContainer(): JSX.Element {
-        this.container = <div id={`navbar-container-${this.id}`} class="container-fluid"></div>;
+        this.container = <div id={`navbar-container-${this.id}`} class="container-fluid">{this.content}</div>;
         return this.container;
     }
 

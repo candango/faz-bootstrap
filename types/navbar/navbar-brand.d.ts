@@ -1,4 +1,4 @@
-import { FazElement } from "faz/src";
+import { FazElement } from "faz";
 import { JSX } from "solid-js/jsx-runtime";
 export declare class FazBsNavbarBrand extends FazElement {
     private brand;

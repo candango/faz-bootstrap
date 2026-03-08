@@ -8,14 +8,15 @@ import { render } from "solid-js/web";
 
 export class FazBsGrid extends FazBsElement {
 
-    private tableItem: JSX.Element;
+    private tableItem: JSX.Element | undefined;
 
     constructor() {
         super();
         for (let attribute of this.attributes) {
             switch (attribute.name.toLowerCase()) {
                 case "extraclasses":
-                    this.setExtraClasses(attribute.value);
+                case "extra-classes":
+                    this.extraClasses = attribute.value;
                     break;
             }
         }
@@ -23,14 +24,14 @@ export class FazBsGrid extends FazBsElement {
 
     get classNames() {
         let classes = ["table"];
-        if (this.extraClasses()) {
-            classes.push(this.extraClasses());
+        if (this.extraClasses) {
+            classes.push(this.extraClasses);
         }
         return classes.join(" ");
     }
 
     show() {
-        this.tableItem = <table id={`faz-bs-table-${this.id}`} class={this.classNames}></table>;
+        this.tableItem = <table id={`faz-bs-table-${this.id}`} class={this.classNames}>{this.content}</table>;
         render(() => this.tableItem, this);
     }
 }

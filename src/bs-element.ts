@@ -1,59 +1,54 @@
 import { FazBsAttrKind } from "./bs-attributes";
-import { FazElement, toBoolean } from "faz/src";
-import { Accessor, createSignal, Setter } from "solid-js";
-
+import { FazElement, toBoolean } from "faz";
+import { bindReactive } from "faz";
 
 export class FazBsElement extends FazElement {
 
-    public outline: Accessor<boolean>;
-    public setOutline: Setter<boolean>;
-    public kind: Accessor<FazBsAttrKind>;
-    public setKind: Setter<FazBsAttrKind>;
-    public target: Accessor<string|undefined>;
-    public setTarget: Setter<string|undefined>;
-    public theme: Accessor<string|undefined>;
-    public setTheme: Setter<string|undefined>;
+    public outline: boolean = false;
+    public kind: FazBsAttrKind = undefined;
+    public target: string | undefined = undefined;
+    public theme: string | undefined = undefined;
 
     constructor() {
         super();
 
-        [this.outline, this.setOutline] = createSignal<boolean>(false);
-        [this.kind, this.setKind] = createSignal<FazBsAttrKind>(undefined);
-        [this.target, this.setTarget] = createSignal<string|undefined>(undefined);
-        [this.theme, this.setTheme] = createSignal<string|undefined>(undefined);
+        bindReactive(this, "outline", false);
+        bindReactive(this, "kind", undefined);
+        bindReactive(this, "target", undefined);
+        bindReactive(this, "theme", undefined);
 
         for (let attribute of this.attributes) {
             switch (attribute.name.toLowerCase()) {
                 case "extraclasses":
                 case "extra-classes":
-                    this.setExtraClasses(attribute.value);
+                    this.extraClasses = attribute.value;
                     break;
                 case "kind":
-                    this.setKind(attribute.value.toLowerCase() as FazBsAttrKind);
+                    this.kind = attribute.value.toLowerCase() as FazBsAttrKind;
                     break;
                 case "outline":
-                    this.setOutline(toBoolean(attribute.value));
+                    this.outline = toBoolean(attribute.value);
                     break;
                 case "target":
-                    this.setTarget(attribute.value);
+                    this.target = attribute.value;
                     break;
                 case "theme":
-                    this.setTheme(attribute.value);
+                    this.theme = attribute.value;
                     break;
             }
         }
     }
 
-    public getClasses(baseClass:string|undefined): string[] {
+    public getClasses(baseClass: string | undefined): string[] {
         let classes = <string[]>[baseClass];
 
-        if (this.active()) {
+        if (this.active) {
             classes.push("active");
         }
-        if (this.disabled()) {
+        if (this.disabled) {
             classes.push("disabled");
         }
-        if (this.kind()) {
+        if (this.kind) {
             classes.push(this.kindClass() as string)
         }
         return classes
@@ -63,17 +58,17 @@ export class FazBsElement extends FazElement {
         return "";
     }
 
-    get controlledLink(): string|undefined {
-        if (this.disabled() || this.link()===undefined) {
+    get controlledLink(): string | undefined {
+        if (this.disabled || this.link === undefined) {
             return undefined;
         }
-        return this.link();
+        return this.link;
     }
 
     get classNames() {
         let classes = this.getClasses(this.baseClass);
-        if (this.extraClasses()) {
-            classes.push(this.extraClasses());
+        if (this.extraClasses) {
+            classes.push(this.extraClasses);
         }
         return classes.join(" ").trim();
     }
@@ -82,12 +77,12 @@ export class FazBsElement extends FazElement {
         return this.baseClass;
     }
 
-    public kindClass(): string|undefined {
-        if (this.kind() == undefined) {
-            undefined;
+    public kindClass(): string | undefined {
+        if (this.kind === undefined) {
+            return undefined;
         }
-        let outline = this.outline() ? "outline-" : "";
+        let outline = this.outline ? "outline-" : "";
         let classPrefix = this.classPrefix.trim() !== "" ? `${this.classPrefix}-` : "";
-        return `${classPrefix}${outline}${this.kind()}`;
+        return `${classPrefix}${outline}${this.kind}`;
     }
 }

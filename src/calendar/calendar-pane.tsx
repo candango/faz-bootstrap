@@ -10,9 +10,9 @@ declare global {
 (window as any).calHelper = new CalendarHelper();
 
 export class FazBsCalendarPane extends FazBsElement {
-    private divElement: JSX.Element;
-    private hourLine: JSX.Element;
-    private hourLabel: JSX.Element;
+    private divElement: JSX.Element | undefined;
+    private hourLine: JSX.Element | undefined;
+    private hourLabel: JSX.Element | undefined;
     
     private SLOT_HEIGHT: number = 30;
     private SLOTS_PER_HOUR: number = 4;
@@ -21,14 +21,12 @@ export class FazBsCalendarPane extends FazBsElement {
 
     constructor() {
         super();
-        this.hourLabel = <span class="floating-time-label"></span>;
-        this.hourLine = <div class="current-hour-indicator">{this.hourLabel}</div>;
     }
 
     get classNames() {
         let classes = [];
-        const active = this.active();
-        const disabled = this.disabled();
+        const active = this.active;
+        const disabled = this.disabled;
 
         if (active && !disabled) {
             classes.push("active");
@@ -36,13 +34,12 @@ export class FazBsCalendarPane extends FazBsElement {
         if (disabled) {
             classes.push("disabled");
         }
-        if (this.kind()) {
-            classes.push("link-" + this.kind());
+        if (this.kind) {
+            classes.push("link-" + this.kind);
         }
-        if (this.extraClasses()) {
-            classes.push(this.extraClasses());
+        if (this.extraClasses) {
+            classes.push(this.extraClasses);
         }
-        console.log(classes)
         return classes.join(" ");
     }
 
@@ -78,12 +75,13 @@ export class FazBsCalendarPane extends FazBsElement {
         const hourLine =(this.hourLine as HTMLElement); 
         const hourLabel =(this.hourLabel as HTMLElement); 
 
-        hourLine.style.top = `${top}px`
-        console.log(hour, minute, top);
-        hourLabel.textContent = `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`
+        if (hourLine) hourLine.style.top = `${top}px`;
+        if (hourLabel) hourLabel.textContent = `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
     }
 
     show() {
+        this.hourLabel = <span class="floating-time-label"></span>;
+        this.hourLine = <div class="current-hour-indicator">{this.hourLabel}</div>;
         this.divElement = <div id={`faz-bs-calendar-${this.id}`} class={this.classNames}>
             {this.renderDays()}
             {this.hourLine}
