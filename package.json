@@ -57,29 +57,25 @@
         "typescript": "5.9.3"
     },
     "scripts": {
-        "watch": "npm run watch:clean && node watch.mjs",
+        "watch": "pnpm run watch:clean && node watch.mjs",
         "watch:clean": "rm -rf showcase/dist",
         "esbuild": "node build.mjs",
-        "ts:build": "npm run ts:clean && npm run ts:declaration",
+        "ts:build": "pnpm run ts:clean && pnpm run ts:declaration",
         "ts:declaration": "tsc -p tsconfig.types.json -d --declarationDir types --emitDeclarationOnly && rm -rf tsconfig.types.tsbuildinfo",
         "ts:clean": "rm -rf tsconfig.tsbuildinfo types/*",
-        "build": "npm run build:clean && npm run lessc && npm run esbuild && npm run ts:build && cp -r types dist",
-        "build:prod": "npm run build:clean && webpack --config webpack.config.prod.js && npm run lessc",
+        "build": "pnpm run build:clean && pnpm run lessc && pnpm run esbuild && pnpm run ts:build && cp -r types dist",
+        "build:prod": "pnpm run build:clean && webpack --config webpack.config.prod.js && pnpm run lessc",
         "build:clean": "rm -rf dist",
         "build:vendors": "rm -rf dist",
-        "lessc": "npm run lessc:faz && npm run lessc:showcase",
+        "lessc": "pnpm run lessc:faz && pnpm run lessc:showcase",
         "lessc:faz": "lessc stylesheets/faz.less dist/css/faz.css --source-map",
         "lessc:showcase": "lessc stylesheets/showcase.less dist/css/showcase.css --source-map",
         "lessc:calendar": "lessc stylesheets/calendar.less dist/css/calendar.css --source-map",
-        "lessc:dev": "npm run lessc:dev:faz && npm run lessc:dev:showcase && npm run lessc:dev:calendar",
+        "lessc:dev": "pnpm run lessc:dev:faz && pnpm run lessc:dev:showcase && pnpm run lessc:dev:calendar",
         "lessc:dev:faz": "lessc stylesheets/faz.less stylesheets/faz.css --source-map",
         "lessc:dev:showcase": "lessc stylesheets/showcase.less stylesheets/showcase.css --source-map",
         "lessc:dev:calendar": "lessc stylesheets/calendar.less stylesheets/calendar.css --source-map",
-        "test": "npm run test:browser",
-        "yarn": "npm run yarn:clean && npm run yarn:v2 && npm run yarn:install",
-        "yarn:install": "yarn install",
-        "yarn:clean": "rm -rf yarn.lock .yarn .yarnrc.yml .next node_modules",
-        "yarn:v2": "yarn set version berry && yarn config set nodeLinker node-modules"
+        "test": "pnpm run test:browser"
     },
-    "packageManager": "yarn@4.8.1"
+    "packageManager": "pnpm@10.25.0"
 }
