@@ -11,6 +11,7 @@ export declare class FazBsInputFilterbox extends FazBsElement {
     autocomplete: string;
     items: FilterableItem[];
     label: string;
+    name: string;
     value: string;
     selectedName: string;
     displayFilter: boolean;
@@ -44,6 +45,7 @@ export declare class FazBsInputFilterbox extends FazBsElement {
     clearFilterTimeout(): void;
     verifySelectedValue(): void;
     hasFilterableItems(): boolean;
+    setItems(items: FilterableItem[]): void;
     beOverListGroup(): void;
     leaveListGroup(): void;
     activateOption(e: Event): void;

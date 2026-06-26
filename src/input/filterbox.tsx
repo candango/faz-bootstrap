@@ -19,6 +19,7 @@ export class FazBsInputFilterbox extends FazBsElement {
     public autocomplete: string = "off";
     public items: FilterableItem[] = [];
     public label: string = "Search for..";
+    public name: string = "";
     public value: string = "";
     public selectedName: string = "";
 
@@ -47,6 +48,7 @@ export class FazBsInputFilterbox extends FazBsElement {
         bindReactive(this, "autocomplete", "off");
         bindReactive(this, "items", []);
         bindReactive(this, "label", "Search for..");
+        bindReactive(this, "name", "");
         bindReactive(this, "value", "");
         bindReactive(this, "selectedName", "");
  
@@ -69,6 +71,9 @@ export class FazBsInputFilterbox extends FazBsElement {
                     break;
                 case "label":
                     this.label = attribute.value;
+                    break;
+                case "name":
+                    this.name = attribute.value;
                     break;
             }
         }
@@ -186,15 +191,18 @@ export class FazBsInputFilterbox extends FazBsElement {
 
     verifySelectedValue() {
         const inputName = (this.inputName as HTMLInputElement);
-        const inputValue = (this.inputValue as HTMLInputElement);
         if(this.selectedName !== "" && inputName.value !== this.selectedName) {
-            this.selectedName = inputName.value;
-            this.value = inputValue.value;
+            this.selectedName = "";
+            this.value = "";
         }
     }
 
     hasFilterableItems() {
         return this.items.length > 0;
+    }
+
+    setItems(items: FilterableItem[]) {
+        this.items = items;
     }
 
     beOverListGroup() {
@@ -223,6 +231,7 @@ export class FazBsInputFilterbox extends FazBsElement {
     }
 
     selectOption(e: Event) {
+        e.preventDefault();
         let option = e.target as HTMLElement;
         this.selectedName = option.getAttribute("item-name") as string;
         this.value = option.getAttribute("item-value") as string;
@@ -312,7 +321,7 @@ export class FazBsInputFilterbox extends FazBsElement {
     }
 
     renderInputValue(): JSX.Element {
-        this.inputValue = <input id={this.inputValueId} type="hidden" value={this.value} />;
+        this.inputValue = <input id={this.inputValueId} type="hidden" name={this.name} value={this.value} />;
         return this.inputValue;
     }
 
@@ -328,10 +337,10 @@ export class FazBsInputFilterbox extends FazBsElement {
 
     afterShow() {
         createEffect(() => {
-            const value = this.value;
-            const inputName = this.inputName as HTMLInputElement; 
-            if (value != inputName.value) {
-                inputName.value = this.value; 
+            const selectedName = this.selectedName;
+            const inputName = this.inputName as HTMLInputElement;
+            if (selectedName !== "" && selectedName !== inputName.value) {
+                inputName.value = selectedName;
             }
         });
         super.afterShow();

@@ -32,6 +32,7 @@
             <h2 class="card-title">Heading</h2>
             <p class="card-text">An input Filterbox with a initcalback defined in the component.</p>
             <div id="badgeHeadingExample"><faz-bs-input-filterbox id="basicfilterbox"
+                          name="basicfilterbox"
                           initcallback="initBasicInitialItems">
         </faz-bs-input-filterbox></div>
         <div>
@@ -69,8 +70,6 @@
 
 <script type="application/javascript">
     function initBasicInitialItems(filterbox) {
-        console.log("Innit callback called");
-        console.log(filterbox);
         filterbox.setItems([
             {
                 name: "Item 1",

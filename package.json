@@ -52,9 +52,13 @@
         "esbuild": "0.27.2",
         "esbuild-plugin-copy": "2.1.1",
         "esbuild-plugin-solid": "0.6.0",
+        "jsdom": "27.0.0",
         "nise": "6.1.1",
         "ts-node": "10.9.2",
-        "typescript": "5.9.3"
+        "typescript": "5.9.3",
+        "vite": "8.0.16",
+        "vite-plugin-solid": "2.11.12",
+        "vitest": "4.1.9"
     },
     "scripts": {
         "watch": "pnpm run watch:clean && node watch.mjs",
@@ -75,7 +79,7 @@
         "lessc:dev:faz": "lessc stylesheets/faz.less stylesheets/faz.css --source-map",
         "lessc:dev:showcase": "lessc stylesheets/showcase.less stylesheets/showcase.css --source-map",
         "lessc:dev:calendar": "lessc stylesheets/calendar.less stylesheets/calendar.css --source-map",
-        "test": "pnpm run test:browser"
+        "test": "vitest run"
     },
     "packageManager": "pnpm@10.25.0"
 }
