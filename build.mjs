@@ -20,6 +20,8 @@ import {entryPoints} from "./entryPoints.mjs";
 import { copy } from "esbuild-plugin-copy";
 import { solidPlugin } from "esbuild-plugin-solid";
 
+entryPoints.push({ out: "css/faz-bs", in: "dist/css/faz.css" });
+
 await build({
     entryPoints: entryPoints,
     bundle: true,

@@ -41,6 +41,7 @@ entryPoints.push({ out: "pagination-solid.bundle", in: "showcase/src/pagination.
 entryPoints.push({ out: "theme.bundle", in: "src/bs-theme.ts" });
 
 entryPoints.push({ out: "global.bundle", in: "showcase/src/global.ts" });
+entryPoints.push({ out: "css/faz-bs", in: "stylesheets/faz.css"});
 entryPoints.push({ out: "css/showcase", in: "stylesheets/showcase.css"});
 entryPoints.push({ out: "css/calendar", in: "stylesheets/calendar.css"});
 

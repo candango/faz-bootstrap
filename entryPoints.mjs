@@ -24,5 +24,4 @@ export const entryPoints =  [
     { out: "js/nav", in: "src/nav/nav.tsx" },
     { out: "js/navbar", in: "src/navbar/navbar.tsx" },
     { out: "js/pagination", in: "src/pagination/pagination.tsx" },
-    { out: "css/faz-bs", in: "stylesheets/faz.css"},
 ]
