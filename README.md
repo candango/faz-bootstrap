@@ -24,7 +24,7 @@ Candango faz-bootstrap is a toolkit based on bootstrap and solid-js.
 
 ```
 > yarn
-> npm run lessc:dev
+> npm run sass:dev
 > npm run run
 ```
 
