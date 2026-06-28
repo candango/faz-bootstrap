@@ -29,10 +29,18 @@ await build({
     write: true,
     treeShaking: true,
     sourcemap: true,
+    format: "esm",
+    target: ["esnext"],
     outdir: "dist",
     logLevel: "info",
     legalComments: "none",
     allowOverwrite: true,
+    external: [
+        "faz",
+        "faz/*",
+        "solid-js",
+        "solid-js/*",
+    ],
     plugins:[
         solidPlugin(),
         copy(assets)

@@ -80,6 +80,37 @@
         </div>
     </div>
     <br>
+    <div class="card">
+        <div class="card-body">
+            <h2 class="card-title">Alert inside a Bootstrap modal</h2>
+            <p class="card-text">This example uses a Faz Bootstrap button to open a Bootstrap modal containing a Faz Bootstrap alert.</p>
+            <div id="alertModalExample"><faz-bs-button kind="primary"
+                   data-bs-toggle="modal"
+                   data-bs-target="#alertModal">
+    Open alert modal
+</faz-bs-button>
+
+<div class="modal fade" id="alertModal" tabindex="-1" aria-labelledby="alertModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="alertModalLabel">Alert modal</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <faz-bs-alert kind="warning">
+                    This alert is rendered inside a Bootstrap modal.
+                </faz-bs-alert>
+            </div>
+            <div class="modal-footer">
+                <faz-bs-button kind="secondary" data-bs-dismiss="modal">Close</faz-bs-button>
+            </div>
+        </div>
+    </div>
+</div></div>
+        </div>
+    </div>
+    <br>
 
     <br>
     <br>
@@ -90,6 +121,7 @@
     codemirrorit("oneAlertExample");
     codemirrorit("alertKindsExample");
     codemirrorit("nestAlertsExample");
+    codemirrorit("alertModalExample");
 </script>
 
 <!-- Bootstrap core JavaScript
