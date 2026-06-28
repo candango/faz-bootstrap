@@ -205,4 +205,79 @@ describe("FazBsInputFilterbox", () => {
         expect(filterbox.lastResolvedQuery).toBe("ab");
         expect(option).not.toBeNull();
     });
+
+    test("renders category headers as non-clickable separators", async () => {
+        document.body.innerHTML = `<faz-bs-input-filterbox id="filterbox"></faz-bs-input-filterbox>`;
+        await flush();
+
+        const filterbox = document.getElementById(
+            "filterbox"
+        ) as FazBsInputFilterbox;
+
+        filterbox.setItems([
+            { name: "Item Category 1", value: 3, category: "Cat 1" },
+            { name: "Item Category 2", value: 4, category: "Cat 1" },
+        ]);
+
+        const input = filterbox.querySelector(
+            "input[type='text']"
+        ) as HTMLInputElement;
+
+        input.value = "Item";
+        input.dispatchEvent(new InputEvent("input", { bubbles: true }));
+
+        await vitest.advanceTimersByTimeAsync(500);
+        await flush();
+
+        const category = filterbox.querySelector("#category-Cat\\ 1") as HTMLElement;
+        const option = filterbox.querySelector(
+            "a[item-name='Item Category 1']"
+        ) as HTMLAnchorElement;
+
+        expect(category).not.toBeNull();
+        expect(category.tagName).toBe("DIV");
+        expect(category.getAttribute("href")).toBeNull();
+
+        expect(option).not.toBeNull();
+        expect(option.tagName).toBe("A");
+    });
+
+    test("supports remote fetch-style callbacks", async () => {
+        document.body.innerHTML = `<faz-bs-input-filterbox id="filterbox"></faz-bs-input-filterbox>`;
+        await flush();
+
+        const filterbox = document.getElementById(
+            "filterbox"
+        ) as FazBsInputFilterbox;
+        const input = filterbox.querySelector(
+            "input[type='text']"
+        ) as HTMLInputElement;
+
+        const fetchMock = vitest.fn(async (url: string) => {
+            expect(url).toContain("q=ab");
+            return {
+                ok: true,
+                json: async () => ([{ name: "Remote Item", value: "ab" }])
+            };
+        });
+
+        filterbox.filterCallback = async (query: string) => {
+            const response = await fetchMock(`/items?q=${encodeURIComponent(query)}`);
+            return await response.json();
+        };
+
+        input.value = "ab";
+        input.dispatchEvent(new InputEvent("input", { bubbles: true }));
+
+        await vitest.advanceTimersByTimeAsync(500);
+        await flush();
+
+        const option = filterbox.querySelector(
+            "a[item-name='Remote Item']"
+        ) as HTMLAnchorElement;
+
+        expect(fetchMock).toHaveBeenCalledTimes(1);
+        expect(filterbox.lastResolvedQuery).toBe("ab");
+        expect(option).not.toBeNull();
+    });
 });
