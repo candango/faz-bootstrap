@@ -26,80 +26,64 @@
         <faz-bs-breadcrumb-item id="toInputBreadcrumbItem" href="/input">Input</faz-bs-breadcrumb-item>
         <faz-bs-breadcrumb-item id="currentBreadcrumbItem">Filterbox</faz-bs-breadcrumb-item>
     </faz-bs-breadcrumb>
-    <h1>Badges</h1>
+    <h1>Filterbox</h1>
     <div class="card">
         <div class="card-body">
-            <h2 class="card-title">Heading</h2>
-            <p class="card-text">An input Filterbox with a initcalback defined in the component.</p>
-            <div id="badgeHeadingExample"><faz-bs-input-filterbox id="basicfilterbox"
+            <h2 class="card-title">Local items</h2>
+            <p class="card-text">An input Filterbox with an init callback that seeds local items.</p>
+            <div id="localFilterboxExample"><faz-bs-input-filterbox id="basicfilterbox"
                           name="basicfilterbox"
                           initcallback="initBasicInitialItems">
-        </faz-bs-input-filterbox></div>
-        <div>
-            <h1>Something to be bellow the filter</h1>
-            <p>This is a content that filterbox should be over without
-                problems.<br> We don't have any issues with repeating this a
-                million times. Like:<br>
-                This is a content that filterbox should be over without
-                problems.<br>
-                This is a content that filterbox should be over without
-                problems.<br>
-                This is a content that filterbox should be over without
-                problems.<br>
-                This is a content that filterbox should be over without
-                problems.<br>
-                This is a content that filterbox should be over without
-                problems.<br>
-                This is a content that filterbox should be over without
-                problems.<br>
-                This is a content that filterbox should be over without
-                problems.<br>
-                This is a content that filterbox should be over without
-                problems.<br>
-                This is a content that filterbox should be over without
-                problems.<br>
-                This is a content that filterbox should be over without
-                problems.
-            </p>
+            </faz-bs-input-filterbox></div>
         </div>
+    </div>
+    <br>
+    <div class="card">
+        <div class="card-body">
+            <h2 class="card-title">Remote async items</h2>
+            <p class="card-text">This example uses MSW plus fetch to simulate remote requests while the Filterbox waits for async results.</p>
+            <div id="remoteFilterboxExample"><faz-bs-input-filterbox id="remotefilterbox"
+                          name="remotefilterbox"
+                          filtercallback="remoteFilterItems">
+            </faz-bs-input-filterbox></div>
         </div>
+    </div>
+    <br>
+    <div>
+        <h1>Something to be below the filter</h1>
+        <p>This is a content that filterbox should be over without
+            problems.<br> We don't have any issues with repeating this a
+            million times. Like:<br>
+            This is a content that filterbox should be over without
+            problems.<br>
+            This is a content that filterbox should be over without
+            problems.<br>
+            This is a content that filterbox should be over without
+            problems.<br>
+            This is a content that filterbox should be over without
+            problems.<br>
+            This is a content that filterbox should be over without
+            problems.<br>
+            This is a content that filterbox should be over without
+            problems.<br>
+            This is a content that filterbox should be over without
+            problems.<br>
+            This is a content that filterbox should be over without
+            problems.<br>
+            This is a content that filterbox should be over without
+            problems.<br>
+            This is a content that filterbox should be over without
+            problems.
+        </p>
     </div>
     <br>
     <br>
 </main><!-- /.container -->
 
-<script type="application/javascript">
-    function initBasicInitialItems(filterbox) {
-        filterbox.setItems([
-            {
-                name: "Item 1",
-                value: 1
-            }, {
-                name: "Item 2",
-                value: 2
-            }, {
-                name: "Item Category 1",
-                value: 3,
-                category: "Cat 1"
-            }, {
-                name: "Item Category 2",
-                value: 4,
-                category: "Cat 1"
-            }
-            , {
-                name: "Item Category 3",
-                value: 5,
-                category: "Cat 2"
-            }
-        ]);
-    }
-</script>
-
 <script src="/dist/global.bundle.js" ></script>
 <script>
-    codemirrorit("badgeHeadingExample");
-    codemirrorit("badgeBackgroundColors");
-    // codemirrorit("breadcrumbEdgeLinkExample");
+    codemirrorit("localFilterboxExample");
+    codemirrorit("remoteFilterboxExample");
 </script>
 
 <!-- Bootstrap core JavaScript

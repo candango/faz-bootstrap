@@ -1,119 +1,100 @@
-
 import { FazBsAlert } from "../../src/alert/alert";
 import { FazBsInputFilterbox, FilterableItem } from "../../src/input/filterbox";
 import { FazFormElement } from "faz/src";
 import { JSX } from "solid-js";
 import { render } from "solid-js/web";
-import { FakeServer, fakeServer, FakeXMLHttpRequest } from "nise";
-
-import axios from "axios";
 
 export class FormExample extends FazFormElement {
 
-    private alert: JSX.Element | undefined;
-    private filterbox: JSX.Element | undefined;
-    private form: JSX.Element;
-    private email: JSX.Element;
-    private description: JSX.Element;
-    private server: FakeServer = fakeServer.create();
+    private alert: FazBsAlert | undefined;
+    private filterbox: FazBsInputFilterbox | undefined;
+    private formElement: HTMLFormElement | undefined;
+    private email: HTMLInputElement | undefined;
+    private description: HTMLTextAreaElement | undefined;
+    private emailFeedback: HTMLDivElement | undefined;
+    private descriptionFeedback: HTMLDivElement | undefined;
 
     constructor(){
         super();
-        this.server.autoRespond = true;
-        this.server.respondWith("GET", "/items", (xhr: FakeXMLHttpRequest) => {
-            this.clearErrors();
-            const data = JSON.parse(xhr.requestBody) as unknown as { [key: string]: any };
-            if (data.email === "") {
-                this.pushError("email", "Missing email");
-            }
-            if (data.description === "") {
-                this.pushError("description", "Missing description");
-            }
-            if (this.hasErrors()){
-                xhr.respond(
-                    400,
-                    { "Content-Type": "application/json" },
-                    JSON.stringify({ "errors": this.errors()})
-                );
-                return;
-            }
-            xhr.respond(
-                200,
-                { "Content-Type": "application/json" },
-                JSON.stringify({ "message": "Data saved."})
-            );
-        });
-        this.server.respondWith("POST", "/save", (xhr: FakeXMLHttpRequest) => {
-            this.clearErrors();
-            const data = JSON.parse(xhr.requestBody) as unknown as { [key: string]: any };
-            if (data.email === "") {
-                this.pushError("email", "Missing email");
-            }
-            if (data.description === "") {
-                this.pushError("description", "Missing description");
-            }
-            if (this.hasErrors()){
-                xhr.respond(
-                    400,
-                    { "Content-Type": "application/json" },
-                    JSON.stringify({ "errors": this.errors()})
-                );
-                return;
-            }
-            xhr.respond(
-                200,
-                { "Content-Type": "application/json" },
-                JSON.stringify({ "message": "Data saved."})
-            );
-        });
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    get contentChild() {
-        return this.form as ChildNode;
+    get form(): HTMLFormElement | undefined {
+        return this.formElement;
     }
 
-    handleSubmit(e: Event): void {
+    get contentChild() {
+        return this.formElement as ChildNode | null;
+    }
+
+    renderErrors(container: HTMLDivElement | undefined, errors: string[]) {
+        if (container === undefined) {
+            return;
+        }
+        container.replaceChildren();
+        errors.forEach((error, index) => {
+            const textNode = document.createTextNode(error);
+            container.appendChild(textNode);
+            if (index < errors.length - 1) {
+                container.appendChild(document.createElement("br"));
+            }
+        });
+    }
+
+    async handleSubmit(e: Event): Promise<void> {
         e.preventDefault();
         const data: { [key: string]: any } = {};
-        const nodeList = (this.form as HTMLFormElement).querySelectorAll("input, textarea, select");
+        const nodeList = this.formElement?.querySelectorAll("input, textarea, select") ?? [];
         nodeList.forEach((node) => {
-            let element = node as HTMLInputElement|HTMLTextAreaElement;
+            const element = node as HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement;
             data[element.name] = element.value;
         });
-        const alert = this.alert as FazBsAlert;
-        // const filterbox = this.filterbox as FazBsInputFilterbox;
-        const email = this.email as HTMLElement;
-        const description = this.description as HTMLElement;
-        email.classList.remove("is-invalid");
-        description.classList.remove("is-invalid");
-        alert.setExtraClasses("invisible");
-        axios({
-            method: this.method(),
-            url: "/save",
-            data: data
-        }).then(response => {
-            alert.setExtraClasses("text-center");
-            alert.setContent(response.data.message);
-        }).catch(error => {
-            this.setErrors(error.response.data.errors);
+
+        this.email?.classList.remove("is-invalid");
+        this.description?.classList.remove("is-invalid");
+        this.renderErrors(this.emailFeedback, []);
+        this.renderErrors(this.descriptionFeedback, []);
+
+        if (this.alert) {
+            this.alert.extraClasses = "invisible";
+            this.alert.content = "";
+        }
+
+        const response = await fetch("/save", {
+            method: this.method.toUpperCase(),
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data)
+        });
+
+        const payload = await response.json() as {
+            errors?: Record<string, string[]>;
+            message?: string;
+        };
+
+        if (!response.ok) {
+            this.errors = payload.errors ?? {};
             if (this.hasErrorsFor("email")) {
-                email.classList.add("is-invalid");
-                if (email.nextElementSibling) {
-                    email.nextElementSibling.innerHTML = this.getErrorsFor("email").join("<br>");
-                }
+                this.email?.classList.add("is-invalid");
+                this.renderErrors(this.emailFeedback, this.getErrorsFor("email"));
             }
             if (this.hasErrorsFor("description")) {
-                description.classList.add("is-invalid");
-                if (description.nextElementSibling) {
-                    description.nextElementSibling.innerHTML = this.getErrorsFor("description").join("<br>");
-                }
+                this.description?.classList.add("is-invalid");
+                this.renderErrors(this.descriptionFeedback, this.getErrorsFor("description"));
             }
-        });
+            return;
+        }
+
+        if (this.alert) {
+            this.alert.extraClasses = "text-center";
+            this.alert.content = payload.message ?? "";
+        }
     }
 
     filterItems(query: string): FilterableItem[] {
-        return [
+        const normalizedQuery = query.toLowerCase();
+        const items: FilterableItem[] = [
             {
                 name: "Item 1",
                 value: 1
@@ -128,49 +109,73 @@ export class FormExample extends FazFormElement {
                 name: "Item Category 2",
                 value: 4,
                 category: "Cat 1"
-            }
-            , {
+            }, {
                 name: "Item Category 3",
                 value: 5,
                 category: "Cat 2"
             }
         ];
+
+        if (normalizedQuery === "") {
+            return items;
+        }
+
+        return items.filter((item) => item.name.toLowerCase().includes(normalizedQuery));
     }
 
     renderTabs() {
-        this.alert = <faz-bs-alert extraClasses="invisible"></faz-bs-alert>;
-        this.filterbox = <faz-bs-input-filterbox></faz-bs-input-filterbox>;
-        (this.filterbox as FazBsInputFilterbox).filterCallback = this.filterItems;
-        this.email = <input type="email" name="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com"/>;
-        this.description = <textarea class="form-control" name="description" id="exampleFormControlTextarea1" rows="3"></textarea>;
-        this.form = <form
-            action={this.action()}
-            method={this.method() as JSX.HTMLFormMethod}
+        const filterItems = this.filterItems.bind(this);
+        const alert = <faz-bs-alert
+            ref={(element) => this.alert = element as unknown as FazBsAlert}
+            extraClasses="invisible"></faz-bs-alert>;
+        const filterbox = <faz-bs-input-filterbox
+            ref={(element) => {
+                this.filterbox = element as unknown as FazBsInputFilterbox;
+                this.filterbox.filterCallback = filterItems;
+            }}></faz-bs-input-filterbox>;
+        const email = <input
+            ref={(element) => this.email = element}
+            type="email"
+            name="email"
+            class="form-control"
+            id="exampleFormControlInput1"
+            placeholder="name@example.com"/>;
+        const description = <textarea
+            ref={(element) => this.description = element}
+            class="form-control"
+            name="description"
+            id="exampleFormControlTextarea1"
+            rows="3"></textarea>;
+
+        this.formElement = <form
+            ref={(element) => this.formElement = element}
+            action={this.action}
+            method={this.method as JSX.HTMLFormMethod}
             onSubmit={this.handleSubmit}>
             <div class="mb-3">
                 <label for="exampleFormControlInput1" class="form-label">Email address</label>
-                {this.email}
-                <div class="invalid-feedback"></div>
+                {email}
+                <div class="invalid-feedback" ref={(element) => this.emailFeedback = element}></div>
             </div>
             <div class="mb-3">
                 <label for="exampleFormControlTextarea1" class="form-label">Example textarea</label>
-                {this.description}
-                <div class="invalid-feedback"></div>
+                {description}
+                <div class="invalid-feedback" ref={(element) => this.descriptionFeedback = element}></div>
             </div>
             <div class="mb-3">
-                {this.filterbox}
+                {filterbox}
                 <div class="invalid-feedback"></div>
             </div>
             <div class="mb-3 row">
                 <div class="col-2"><button class="btn btn-primary" type="submit">Button</button></div>
-                <div class="col-9">{this.alert}</div>
+                <div class="col-9">{alert}</div>
             </div>
-        </form>;
+        </form> as unknown as HTMLFormElement;
     }
 
     show() {
         this.renderTabs();
-        render(() => <div>{this.form}</div>, this);
+        render(() => <div>{this.formElement}</div>, this);
         return;
     }
 }
