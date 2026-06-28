@@ -10,7 +10,9 @@ export class FilterableItem {
     public category?: string | undefined = undefined;
 }
 
-export type FilterCallback = (query: string) => FilterableItem[];
+export type FilterResult = FilterableItem[] | Promise<FilterableItem[]>;
+
+export type FilterCallback = (query: string) => FilterResult;
 
 export type InitCallback = (filterbox: FazBsInputFilterbox) => void;
 
@@ -18,6 +20,7 @@ export class FazBsInputFilterbox extends FazBsElement {
 
     public autocomplete: string = "off";
     public items: FilterableItem[] = [];
+    public filteredItems: FilterableItem[] = [];
     public label: string = "Search for..";
     public name: string = "";
     public value: string = "";
@@ -25,7 +28,8 @@ export class FazBsInputFilterbox extends FazBsElement {
 
     public displayFilter: boolean = false;
     public filtering: boolean = false;
-
+    public pendingQuery: string = "";
+    public lastResolvedQuery: string = "";
 
     public filterCallback: FilterCallback | string | undefined = undefined;
     public initCallback: InitCallback | string | undefined = undefined;
@@ -39,6 +43,7 @@ export class FazBsInputFilterbox extends FazBsElement {
     private filterDelay: number = 500;
     private filterTimeoutId: NodeJS.Timeout | undefined = undefined;
     private beOverTimeoutId: NodeJS.Timeout | undefined = undefined;
+    private activeFilterRequestId: number = 0;
     private overListGroup: boolean = false;
     private inputHasFocus: boolean = false;
 
@@ -47,6 +52,7 @@ export class FazBsInputFilterbox extends FazBsElement {
 
         bindReactive(this, "autocomplete", "off");
         bindReactive(this, "items", []);
+        bindReactive(this, "filteredItems", []);
         bindReactive(this, "label", "Search for..");
         bindReactive(this, "name", "");
         bindReactive(this, "value", "");
@@ -54,18 +60,20 @@ export class FazBsInputFilterbox extends FazBsElement {
  
         bindReactive(this, "displayFilter", false);
         bindReactive(this, "filtering", false);
+        bindReactive(this, "pendingQuery", "");
+        bindReactive(this, "lastResolvedQuery", "");
 
         for (let attribute of this.attributes) {
             switch (attribute.name.toLowerCase()) {
                 case "autocomplete":
                     this.autocomplete = attribute.value.toLowerCase();
-                    break
+                    break;
                 case "filtercallback":
                     this.filterCallback = attribute.value;
-                    break
+                    break;
                 case "initcallback":
                     this.initCallback = attribute.value;
-                    break
+                    break;
                 case "value":
                     this.value = attribute.value;
                     break;
@@ -132,11 +140,50 @@ export class FazBsInputFilterbox extends FazBsElement {
         }, []);
     }
 
-    get filteredItems(): FilterableItem[] {
-        if(this.filterCallback !== undefined) {
-            return (this.filterCallback as FilterCallback)(this.buffer);
+    resolveFilterItems(query: string): FilterResult {
+        if (this.filterCallback !== undefined) {
+            return (this.filterCallback as FilterCallback)(query);
         }
-        return this.defaultFilterCallback(this.buffer);
+        return this.defaultFilterCallback(query);
+    }
+
+    isPromiseLike(value: FilterResult): value is Promise<FilterableItem[]> {
+        return typeof (value as Promise<FilterableItem[]>).then === "function";
+    }
+
+    applyFilterResult(requestId: number, query: string, items: FilterableItem[]) {
+        if (requestId !== this.activeFilterRequestId || query !== this.buffer) {
+            return;
+        }
+        this.filteredItems = items;
+        this.pendingQuery = "";
+        this.lastResolvedQuery = query;
+        this.filtering = false;
+        this.displayFilter = true;
+    }
+
+    async showFilter() {
+        const query = this.buffer;
+        const requestId = ++this.activeFilterRequestId;
+        this.pendingQuery = query;
+
+        try {
+            const filterResult = this.resolveFilterItems(query);
+            if (this.isPromiseLike(filterResult)) {
+                const items = await filterResult;
+                this.applyFilterResult(requestId, query, items);
+                return;
+            }
+            this.applyFilterResult(requestId, query, filterResult);
+        } catch (_) {
+            if (requestId !== this.activeFilterRequestId || query !== this.buffer) {
+                return;
+            }
+            this.filteredItems = [];
+            this.pendingQuery = "";
+            this.filtering = false;
+            this.displayFilter = true;
+        }
     }
 
     filterUncategorizedItems(filteredItems: FilterableItem[]) {
@@ -153,7 +200,7 @@ export class FazBsInputFilterbox extends FazBsElement {
 
     doFilter(_: Event): void {
         const inputName = (this.inputName as HTMLInputElement);
-        this.verifySelectedValue()
+        this.verifySelectedValue();
         this.filtering = true;
         this.displayFilter = false;
         this.overListGroup = true;
@@ -162,30 +209,29 @@ export class FazBsInputFilterbox extends FazBsElement {
         this.clearFilterTimeout();
         if(this.buffer !== "") {
             this.filterTimeoutId = setTimeout(
-                () => this.showFilter(), this.filterDelay
+                () => void this.showFilter(), this.filterDelay
             );
             return;
         }
+        this.activeFilterRequestId += 1;
+        this.filteredItems = [];
+        this.pendingQuery = "";
+        this.lastResolvedQuery = "";
         this.filtering = false;
-    }
-
-    showFilter() {
-        this.filtering = false;
-        this.displayFilter = true;
     }
 
     clearFilter() {
-        this.inputHasFocus = false
+        this.inputHasFocus = false;
         if (!this.overListGroup) {
             this.buffer = "";
-            this.leaveListGroup()
+            this.leaveListGroup();
         }
     }
 
     clearFilterTimeout() {
         if(this.filterTimeoutId) {
-            clearTimeout(this.filterTimeoutId)
-            this.filterTimeoutId = undefined
+            clearTimeout(this.filterTimeoutId);
+            this.filterTimeoutId = undefined;
         }
     }
 
@@ -198,7 +244,7 @@ export class FazBsInputFilterbox extends FazBsElement {
     }
 
     hasFilterableItems() {
-        return this.items.length > 0;
+        return this.items.length > 0 || this.filteredItems.length > 0;
     }
 
     setItems(items: FilterableItem[]) {
@@ -248,8 +294,8 @@ export class FazBsInputFilterbox extends FazBsElement {
                       item-value={item.value} item-name={item.name}
                       onClick={this.selectOption}
                       onMouseOver={this.activateOption}
-                      onMouseOut={this.deactivateOption}>{item.name}</a>
-        })
+                      onMouseOut={this.deactivateOption}>{item.name}</a>;
+        });
     }
 
     get results(): JSX.Element {
@@ -257,7 +303,7 @@ export class FazBsInputFilterbox extends FazBsElement {
         return <div class="list-group">
             {this.renderUncategorizedResults(filteredItems)}
             {this.renderCategorizedResults(filteredItems)}
-        </div>
+        </div>;
     }
 
     renderUncategorizedResults(filteredItems: FilterableItem[]): JSX.Element[] {
@@ -268,20 +314,22 @@ export class FazBsInputFilterbox extends FazBsElement {
                       item-value={item.value} item-name={item.name}
                       onClick={this.selectOption}
                       onMouseOver={this.activateOption}
-                      onMouseOut={this.deactivateOption}>{item.name}</a>
-        })
+                      onMouseOut={this.deactivateOption}>{item.name}</a>;
+        });
     }
 
     renderCategorizedResults(filteredItems: FilterableItem[]): JSX.Element[] {
         const className = [
             "list-group-item",
-            "list-group-item-action",
-            "list-group-item-dark"].join(" ");
+            "list-group-item-dark",
+            "py-1",
+            "small"
+        ].join(" ");
         return this.getCategories(filteredItems).map((category) => {
-            return <><a id={"category-" + category } href="#"
+            return <><div id={"category-" + category }
                    class={className}>
-                    <h6 class="mb-1">{category}</h6></a>
-                {this.filterCategorizedResultItems(category, filteredItems)}</>
+                    <strong>{category}</strong></div>
+                {this.filterCategorizedResultItems(category, filteredItems)}</>;
         });
     }
 
@@ -293,7 +341,7 @@ export class FazBsInputFilterbox extends FazBsElement {
                         onMouseOut={this.leaveListGroup}
             >
                 {this.results}
-            </div>
+            </div>;
         }
     }
 
@@ -326,13 +374,28 @@ export class FazBsInputFilterbox extends FazBsElement {
     }
 
     show() {
-        this.container = <div id={this.containerId}>
+        this.container = <div id={this.containerId} class="filterbox-outer-container">
             {this.renderInputName()}
             {this.renderInputValue()}
             {this.renderFilteringMessage()}
             {this.renderFilterContainer()}
         </div>;
         render(() => this.container, this);
+    }
+
+    resolveCallback<T>(callback: T | string): T {
+        if (typeof callback !== "string") {
+            return callback;
+        }
+
+        const globalCallback = (globalThis as Record<string, unknown>)[callback];
+        if (typeof globalCallback === "function") {
+            return globalCallback as T;
+        }
+
+        // Avoiding calling eval directly
+        // See: https://esbuild.github.io/content-types/#direct-eval
+        return (0, eval)(callback) as T;
     }
 
     afterShow() {
@@ -345,13 +408,11 @@ export class FazBsInputFilterbox extends FazBsElement {
         });
         super.afterShow();
         if(typeof this.initCallback === "string") {
-            // Avoiding calling eval directly
-            // See: https://esbuild.github.io/content-types/#direct-eval
-            this.initCallback = (0, eval)(this.initCallback);
+            this.initCallback = this.resolveCallback<InitCallback>(this.initCallback);
         }
         if(this.filterCallback) {
             if(typeof this.filterCallback === "string") {
-                this.filterCallback = (0, eval)(this.filterCallback);
+                this.filterCallback = this.resolveCallback<FilterCallback>(this.filterCallback);
             }
         }
         if (this.initCallback) {

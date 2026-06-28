@@ -73,6 +73,7 @@ describe("FazBsInputFilterbox", () => {
         input.dispatchEvent(new InputEvent("input", { bubbles: true }));
 
         await vitest.advanceTimersByTimeAsync(500);
+        await flush();
 
         const option = filterbox.querySelector(
             "a[item-name='Item 1']"
@@ -109,6 +110,7 @@ describe("FazBsInputFilterbox", () => {
         input.value = "Item";
         input.dispatchEvent(new InputEvent("input", { bubbles: true }));
         await vitest.advanceTimersByTimeAsync(500);
+        await flush();
 
         const option = filterbox.querySelector(
             "a[item-name='Item 1']"
@@ -127,5 +129,80 @@ describe("FazBsInputFilterbox", () => {
         expect(filterbox.selectedName).toBe("");
         expect(filterbox.value).toBe("");
         expect(hidden.value).toBe("");
+    });
+
+    test("supports asynchronous filter callbacks", async () => {
+        document.body.innerHTML = `<faz-bs-input-filterbox id="filterbox"></faz-bs-input-filterbox>`;
+        await flush();
+
+        const filterbox = document.getElementById(
+            "filterbox"
+        ) as FazBsInputFilterbox;
+        const input = filterbox.querySelector(
+            "input[type='text']"
+        ) as HTMLInputElement;
+
+        filterbox.filterCallback = async (query: string) => {
+            return [{ name: `${query} result`, value: query }];
+        };
+
+        input.value = "ab";
+        input.dispatchEvent(new InputEvent("input", { bubbles: true }));
+
+        await vitest.advanceTimersByTimeAsync(500);
+        await flush();
+
+        const option = filterbox.querySelector(
+            "a[item-name='ab result']"
+        ) as HTMLAnchorElement;
+
+        expect(filterbox.filtering).toBe(false);
+        expect(filterbox.lastResolvedQuery).toBe("ab");
+        expect(option).not.toBeNull();
+    });
+
+    test("ignores stale async responses when a newer query is pending", async () => {
+        document.body.innerHTML = `<faz-bs-input-filterbox id="filterbox"></faz-bs-input-filterbox>`;
+        await flush();
+
+        const filterbox = document.getElementById(
+            "filterbox"
+        ) as FazBsInputFilterbox;
+        const input = filterbox.querySelector(
+            "input[type='text']"
+        ) as HTMLInputElement;
+
+        const resolvers: Record<string, (items: { name: string; value: string }[]) => void> = {};
+
+        filterbox.filterCallback = (query: string) => {
+            return new Promise((resolve) => {
+                resolvers[query] = resolve;
+            });
+        };
+
+        input.value = "a";
+        input.dispatchEvent(new InputEvent("input", { bubbles: true }));
+        await vitest.advanceTimersByTimeAsync(500);
+
+        input.value = "ab";
+        input.dispatchEvent(new InputEvent("input", { bubbles: true }));
+        await vitest.advanceTimersByTimeAsync(500);
+
+        resolvers["a"]([{ name: "old result", value: "a" }]);
+        await flush();
+
+        expect(filterbox.filtering).toBe(true);
+        expect(filterbox.querySelector("a[item-name='old result']")).toBeNull();
+
+        resolvers["ab"]([{ name: "new result", value: "ab" }]);
+        await flush();
+
+        const option = filterbox.querySelector(
+            "a[item-name='new result']"
+        ) as HTMLAnchorElement;
+
+        expect(filterbox.filtering).toBe(false);
+        expect(filterbox.lastResolvedQuery).toBe("ab");
+        expect(option).not.toBeNull();
     });
 });
